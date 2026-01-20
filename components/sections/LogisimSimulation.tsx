@@ -1,36 +1,71 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FadeUp from '../ui/FadeUp';
 import VideoPlayer from '../ui/VideoPlayer';
 import ImageLightbox from '../ui/ImageLightbox';
-import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Wrench, Zap, Eye, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function LogisimSimulation() {
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [showLightbox, setShowLightbox] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  const simulationVideos = [
+    {
+      src: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/simulations/logisim/schematics_draw_demo',
+      title: 'Schematic Entry Process',
+      description: 'Designing the ALU schematics in the EDA tool. This demonstration captures the detailed process of creating the circuit diagrams.',
+      poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_evolution_full.png',
+    },
+    {
+      src: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_counter_running',
+      title: 'Logisim ALU Simulation',
+      description: 'Counter-driven test sequence cycling through all 19 operations with visual output verification',
+      poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_alu_layout.png',
+    },
+  ];
+
+  // Video keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only navigate if lightbox is not open to avoid conflict
+      if (showLightbox) return;
+      
+      if (e.key === 'ArrowLeft') {
+        setCurrentVideoIndex((prev) => (prev - 1 + simulationVideos.length) % simulationVideos.length);
+      } else if (e.key === 'ArrowRight') {
+        setCurrentVideoIndex((prev) => (prev + 1) % simulationVideos.length);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showLightbox, simulationVideos.length]);
 
   const simulationFeatures = [
     {
       title: 'Complete System Model',
       description: 'Full 8-bit ALU with all 19 operations implemented in Logisim Evolution',
-      icon: '🔧',
+      icon: <Wrench className="w-10 h-10 text-[#D4AF37]" strokeWidth={1.5} />,
     },
     {
       title: 'Automated Testing',
       description: 'Counter-driven test sequences validate all operations systematically',
-      icon: '⚡',
+      icon: <Zap className="w-10 h-10 text-[#D4AF37]" strokeWidth={1.5} />,
     },
     {
       title: 'Visual Verification',
       description: 'LED displays show inputs, outputs, and flags in real-time',
-      icon: '👁️',
+      icon: <Eye className="w-10 h-10 text-[#D4AF37]" strokeWidth={1.5} />,
     },
     {
       title: 'Timing Analysis',
       description: 'Simulation validates propagation delays and critical paths',
-      icon: '⏱️',
+      icon: <Clock className="w-10 h-10 text-[#D4AF37]" strokeWidth={1.5} />,
     },
   ];
 
@@ -88,8 +123,6 @@ export default function LogisimSimulation() {
   const screenshots = [
     '/media/simulations/logisim/sim_logisim_evolution_full.png',
     '/media/simulations/logisim/sim_logisim_alu_layout.png',
-    '/media/simulations/logisim/sim_logisim_screenshot.png',
-    '/media/simulations/logisim/sim_logisim_counter_running.mp4', // Note: Using video thumb or mp4? Original code had .png, but previous code showed mp4 in file list. I'll stick to what I have or check logic.
   ];
 
   const openLightbox = (startIndex: number = 0) => {
@@ -132,15 +165,70 @@ export default function LogisimSimulation() {
         {/* Simulation Video */}
         <FadeUp delay={0.3}>
           <div className="mb-12">
-            <h3 className="text-2xl font-bold text-foreground mb-6">Simulation in Action</h3>
-            <VideoPlayer
-              src="/media/simulations/logisim/sim_logisim_counter_running.mp4"
-              poster="/media/simulations/logisim/sim_logisim_alu_layout.png"
-              title="Logisim ALU Simulation"
-            />
-            <p className="text-sm text-muted-foreground mt-4">
-              Counter-driven test sequence cycling through all 19 operations with visual output verification
-            </p>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-foreground">Simulation in Action</h3>
+              
+              {/* Video Navigation Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentVideoIndex((prev) => (prev - 1 + simulationVideos.length) % simulationVideos.length)}
+                  className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+                  aria-label="Previous video"
+                >
+                  <ChevronLeft className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </button>
+                <span className="text-sm font-mono text-muted-foreground">
+                  {currentVideoIndex + 1} / {simulationVideos.length}
+                </span>
+                <button
+                  onClick={() => setCurrentVideoIndex((prev) => (prev + 1) % simulationVideos.length)}
+                  className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+                  aria-label="Next video"
+                >
+                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </button>
+              </div>
+            </div>
+
+            <motion.div 
+              className="relative aspect-video rounded-lg overflow-hidden bg-black/50 cursor-grab active:cursor-grabbing"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = offset.x * velocity.x;
+                const swipeConfidenceThreshold = 10000;
+                if (swipe < -swipeConfidenceThreshold) {
+                  setCurrentVideoIndex((prev) => (prev + 1) % simulationVideos.length);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  setCurrentVideoIndex((prev) => (prev - 1 + simulationVideos.length) % simulationVideos.length);
+                }
+              }}
+            >
+              <VideoPlayer
+                key={simulationVideos[currentVideoIndex].src}
+                src={simulationVideos[currentVideoIndex].src}
+                poster={simulationVideos[currentVideoIndex].poster}
+                title={simulationVideos[currentVideoIndex].title}
+              />
+              
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentVideoIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-4"
+                >
+                  <h4 className="text-lg font-semibold text-foreground mb-1">
+                    {simulationVideos[currentVideoIndex].title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {simulationVideos[currentVideoIndex].description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
           </div>
         </FadeUp>
 
@@ -211,20 +299,22 @@ export default function LogisimSimulation() {
         <FadeUp delay={0.6}>
           <div>
             <h3 className="text-2xl font-bold text-foreground mb-6">Simulation Screenshots</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {screenshots.map((screenshot, index) => (
                 <motion.div
-                  key={screenshot}
+                  key={`${screenshot}-${index}`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
                   className="relative aspect-video rounded-lg overflow-hidden cursor-pointer group hover:scale-105 transition-transform"
                   onClick={() => openLightbox(index)}
                 >
-                  <img
+                  <Image
                     src={screenshot}
                     alt={`Logisim simulation ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    unoptimized
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

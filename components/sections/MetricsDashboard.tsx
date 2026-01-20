@@ -6,9 +6,9 @@ import MetricCard from '../ui/MetricCard';
 export default function MetricsDashboard() {
   const metrics = [
     {
-      value: 3800,
+      value: 3488,
       label: 'Transistors',
-      description: 'Discrete components',
+      description: 'Total (Discrete + ICs)',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
@@ -28,15 +28,15 @@ export default function MetricsDashboard() {
       animateValue: true,
     },
     {
-      value: 8,
-      label: 'PCB Boards',
-      description: 'Custom designed',
+      value: '1.24M',
+      label: 'Tests Passed',
+      description: '100% success rate',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      animateValue: true,
+      animateValue: false,
     },
     {
       value: '12',
@@ -69,7 +69,7 @@ export default function MetricsDashboard() {
             </p>
           </div>
         </FadeUp>
-
+ 
         {/* Metrics Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {metrics.map((metric, index) => (
@@ -88,14 +88,18 @@ export default function MetricsDashboard() {
 
         {/* Additional Stats */}
         <FadeUp delay={0.6}>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="glass glass-border rounded-lg p-6 text-center">
-              <div className="text-2xl font-bold text-foreground mb-2">100%</div>
-              <div className="text-sm text-muted-foreground">Hand-soldered components</div>
+              <div className="text-2xl font-bold text-foreground mb-2">8 Boards</div>
+              <div className="text-sm text-muted-foreground">Custom designed</div>
             </div>
             <div className="glass glass-border rounded-lg p-6 text-center">
-              <div className="text-2xl font-bold text-foreground mb-2">3 Tools</div>
-              <div className="text-sm text-muted-foreground">KiCad, Electric VLSI, Logisim</div>
+              <div className="text-2xl font-bold text-foreground mb-2">100%</div>
+              <div className="text-sm text-muted-foreground">Open Source</div>
+            </div>
+            <div className="glass glass-border rounded-lg p-6 text-center">
+              <div className="text-2xl font-bold text-foreground mb-2">6 Tools</div>
+              <div className="text-sm text-muted-foreground">Electric, NGSpice, KiCad, Logisim, Python, SymbiYosys</div>
             </div>
             <div className="glass glass-border rounded-lg p-6 text-center">
               <div className="text-2xl font-bold text-foreground mb-2">8-bit</div>

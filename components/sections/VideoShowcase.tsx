@@ -1,12 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import FadeUp from '../ui/FadeUp';
 import VideoPlayer from '../ui/VideoPlayer';
-import { featuredVideos, operationVideos } from '@/lib/data/videos';
+import { featuredVideos, buildVideos, type VideoItem } from '@/lib/data/videos';
 
 export default function VideoShowcase() {
-  const [selectedVideo, setSelectedVideo] = useState(featuredVideos[0]);
+  // Combine videos for the showcase, prioritizing featured and then build/others
+  const showcaseVideos = [...featuredVideos, ...buildVideos];
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const selectedVideo = showcaseVideos[currentIndex];
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % showcaseVideos.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + showcaseVideos.length) % showcaseVideos.length);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input
+      if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
+      
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showcaseVideos.length]);
 
   return (
     <section id="video-showcase" className="relative py-24">
@@ -26,99 +58,74 @@ export default function VideoShowcase() {
           </div>
         </FadeUp>
 
-        {/* Main Video Player */}
+        {/* Main Video Player Area */}
         <FadeUp delay={0.2}>
-          <div className="mb-12">
-            <VideoPlayer
-              src={selectedVideo.src}
-              poster={selectedVideo.poster}
-              title={selectedVideo.title}
-              className="w-full aspect-video"
-            />
-            <div className="mt-4 glass glass-border rounded-lg p-4">
-              <h3 className="text-xl font-bold text-foreground mb-2">{selectedVideo.title}</h3>
-              <p className="text-muted-foreground">{selectedVideo.description}</p>
+          <div className="relative mb-12">
+            <motion.div
+              key={selectedVideo.id}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = offset.x * velocity.x;
+                const swipeConfidenceThreshold = 10000;
+                if (swipe < -swipeConfidenceThreshold) {
+                  handleNext();
+                } else if (swipe > swipeConfidenceThreshold) {
+                  handlePrev();
+                }
+              }}
+              className="cursor-grab active:cursor-grabbing"
+            >
+              <VideoPlayer
+                key={selectedVideo.id}
+                src={selectedVideo.src}
+                poster={selectedVideo.poster}
+                title={selectedVideo.title}
+                className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10"
+              />
+            </motion.div>
+            
+            {/* Description and Controls */}
+            <div className="mt-6 glass glass-border rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+              
+              {/* Left: Info */}
+              <div className="flex-1 text-left">
+                <div className="flex items-center gap-3 mb-2">
+                   <span className="px-2 py-1 bg-accent/10 border border-accent/20 rounded text-xs font-bold text-accent uppercase tracking-wider">
+                     {selectedVideo.category}
+                   </span>
+                   <h3 className="text-2xl font-bold text-foreground">{selectedVideo.title}</h3>
+                </div>
+                <p className="text-muted-foreground text-lg leading-relaxed">{selectedVideo.description}</p>
+              </div>
+
+              {/* Right: Navigation Controls */}
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={handlePrev}
+                  className="p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-95 border border-white/5"
+                  aria-label="Previous Video"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                
+                <span className="text-zinc-500 font-mono font-medium text-lg min-w-[3rem] text-center">
+                  {currentIndex + 1} / {showcaseVideos.length}
+                </span>
+
+                <button 
+                  onClick={handleNext}
+                  className="p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-95 border border-white/5"
+                  aria-label="Next Video"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+
             </div>
           </div>
         </FadeUp>
-
-        {/* Featured Videos */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold text-foreground mb-6">Featured Videos</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredVideos.map((video, index) => (
-              <FadeUp key={video.id} delay={0.1 * index}>
-                <div
-                  className={`cursor-pointer rounded-lg overflow-hidden transition-all ${
-                    selectedVideo.id === video.id
-                      ? 'ring-4 ring-accent scale-105'
-                      : 'hover:scale-102'
-                  }`}
-                  onClick={() => setSelectedVideo(video)}
-                >
-                  <div className="relative aspect-video">
-                    <img
-                      src={video.poster || '/media/hero/hero_system_photo.png'}
-                      alt={video.title}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Play Icon Overlay */}
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                    </div>
-                    {/* Duration Badge */}
-                    {video.duration && (
-                      <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 rounded text-white text-xs font-medium">
-                        {video.duration}
-                      </div>
-                    )}
-                  </div>
-                  <div className="glass glass-border p-4">
-                    <h4 className="font-semibold text-foreground mb-1">{video.title}</h4>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{video.description}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-
-        {/* Operation Demonstrations */}
-        <div>
-          <h3 className="text-2xl font-bold text-foreground mb-6">Operation Demonstrations</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {operationVideos.map((video, index) => (
-              <FadeUp key={video.id} delay={0.05 * index}>
-                <div
-                  className="cursor-pointer rounded-lg overflow-hidden hover:scale-105 transition-transform"
-                  onClick={() => setSelectedVideo(video)}
-                >
-                  <div className="relative aspect-square bg-white/5">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-accent ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                    </div>
-                    {video.duration && (
-                      <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/80 rounded text-white text-xs">
-                        {video.duration}
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-2 bg-white/5">
-                    <p className="text-sm font-medium text-foreground text-center">{video.title}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

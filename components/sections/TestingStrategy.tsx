@@ -132,7 +132,7 @@ export default function TestingStrategy() {
               Testing Strategy
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive testing plan to validate all 19 operations and ensure correct behavior
+              To ensure rigor, I tested on all possibilities there were for an 8-bit ALU on 19 opcodes (256 x 256 x 19)—yes, 1.245 million test cases.
             </p>
           </div>
         </FadeUp>

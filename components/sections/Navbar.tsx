@@ -23,7 +23,7 @@ export default function Navbar() {
     { href: '#testing-strategy', label: 'Testing' },
     { href: '#video-showcase', label: 'Videos' },
     { href: '/viewer', label: '3D Viewer', isRoute: true },
-    { href: 'https://github.com/tmarhguy/cpu', label: 'GitHub', external: true },
+    { href: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu', label: 'GitHub', external: true },
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-foreground">
+          <Link href="/" className="text-xl font-bold text-foreground" aria-label="8-Bit ALU Home">
             8-Bit ALU
           </Link>
 
@@ -49,7 +49,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-[#D4AF37] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -59,7 +59,7 @@ export default function Navbar() {
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-[#D4AF37] transition-colors"
                 >
                   {link.label}
                 </a>
@@ -70,8 +70,9 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-foreground"
-            aria-label="Toggle menu"
+            className="md:hidden p-3 text-foreground hover:text-[#D4AF37] transition-colors"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             <svg
               className="w-6 h-6"
@@ -114,7 +115,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-muted-foreground hover:text-foreground transition-colors py-2"
+                  className="block text-muted-foreground hover:text-[#D4AF37] transition-colors py-3"
                 >
                   {link.label}
                 </Link>
@@ -125,7 +126,7 @@ export default function Navbar() {
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-muted-foreground hover:text-foreground transition-colors py-2"
+                  className="block text-muted-foreground hover:text-[#D4AF37] transition-colors py-3"
                 >
                   {link.label}
                 </a>

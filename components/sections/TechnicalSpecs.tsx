@@ -8,8 +8,8 @@ export default function TechnicalSpecs() {
     { parameter: 'Supply Voltage', value: '5V DC', tolerance: '±5%' },
     { parameter: 'Logic High (VIH)', value: '3.5V', tolerance: 'min' },
     { parameter: 'Logic Low (VIL)', value: '1.5V', tolerance: 'max' },
-    { parameter: 'Propagation Delay', value: '~50ns', tolerance: 'typ' },
-    { parameter: 'Power Consumption', value: '<5W', tolerance: 'max @ 5V' },
+    { parameter: 'Propagation Delay', value: '~400ns', tolerance: 'typ' },
+    { parameter: 'Power Consumption', value: '~2.5W', tolerance: 'max @ 5V' },
     { parameter: 'Operating Temperature', value: '0°C to 70°C', tolerance: '' },
   ];
 
@@ -17,13 +17,13 @@ export default function TechnicalSpecs() {
     { parameter: 'Total Boards', value: '8' },
     { parameter: 'Main ALU Board Size', value: '270mm × 270mm' },
     { parameter: 'Board Area', value: '~729 cm²' },
-    { parameter: 'Component Count', value: '3,800+' },
-    { parameter: 'Transistor Count', value: '3,800+' },
+    { parameter: 'Discrete SOT-23 MOSFETs', value: '624' },
+    { parameter: 'Total Transistor Count', value: '3,488' },
     { parameter: 'Total Weight', value: '~500g (estimated)' },
   ];
 
   const timingSpecs = [
-    { operation: 'ADD/SUB', delay: '~50ns', description: 'Full 8-bit ripple carry' },
+    { operation: 'ADD/SUB', delay: '~80ns', description: 'Full 8-bit ripple carry' },
     { operation: 'AND/OR/XOR', delay: '~10ns', description: 'Single gate delay' },
     { operation: 'NOT', delay: '~5ns', description: 'Inverter propagation' },
     { operation: 'Shift/Rotate', delay: '~15ns', description: 'Multiplexer delay' },

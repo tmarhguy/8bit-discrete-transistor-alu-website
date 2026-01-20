@@ -21,7 +21,7 @@ export default function DesignPhilosophy() {
       title: 'Why Ripple-Carry?',
       rationale: 'Chosen for simplicity and optimization. While slower than lookahead, it requires significantly fewer gates.',
       tradeoffs: [
-        'Minimal transistor count (~200)',
+        '144 Discrete Transistors (Carry Chain)',
         'Simpler verification',
         'Easier to debug',
       ],
@@ -54,7 +54,7 @@ export default function DesignPhilosophy() {
             </p>
           </FadeUp>
           <TextReveal 
-            text="Every major design decision was made with careful consideration of trade-offs, educational value, and project feasibility."
+            text="If you struggle to sleep at 2am and your noisy brain suggests building an ALU from discrete transistors up, it's important that you listen."
             className="text-4xl md:text-6xl font-bold leading-tight tracking-tight text-white mb-12 max-w-5xl"
           />
         </div>
@@ -91,12 +91,12 @@ export default function DesignPhilosophy() {
           <div className="border-t border-white/10 pt-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
               {[
-                { label: 'Propagation Delay', value: '~50ns', detail: 'Simulation Target' },
-                { label: 'Clock Speed', value: '20 MHz', detail: 'Max Frequency' },
-                { label: 'Power Draw', value: '< 5W', detail: 'Efficiency' },
+                { label: 'Gate Response', value: '~10ns', detail: 'Simulation Target' },
+                { label: 'Architecture', value: 'Combinational', detail: 'Pure Logic' },
+                { label: 'Power Draw', value: '~2.5W', detail: 'Efficiency' },
               ].map((stat) => (
                 <div key={stat.label} className="text-center md:text-left group cursor-default">
-                  <div className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-2 transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/50">
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-white mb-2 transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/50">
                     {stat.value}
                   </div>
                   <div className="text-xl font-medium text-white mb-1">{stat.label}</div>

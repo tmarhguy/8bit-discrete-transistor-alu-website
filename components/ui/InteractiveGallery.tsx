@@ -7,23 +7,12 @@ import Image from 'next/image';
 interface InteractiveGalleryProps {
   images: string[];
   title: string;
+  poster?: string;
 }
 
-const getCaptionFromUrl = (url: string) => {
-  const filename = url.split('/').pop()?.split('.')[0] || '';
-  return filename
-    .split(/[_-]/)
-    .map(word => {
-      // Special cases for acronyms
-      if (['alu', 'cpu', 'pcb', 'vlsi', 'mosfet', 'nor', 'nand', 'xor', 'xnor', 'and', 'or', 'not'].includes(word.toLowerCase())) {
-        return word.toUpperCase();
-      }
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    })
-    .join(' ');
-};
+import { getCaptionFromUrl } from '@/lib/utils/media';
 
-export default function InteractiveGallery({ images, title }: InteractiveGalleryProps) {
+export default function InteractiveGallery({ images, title, poster }: InteractiveGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [direction, setDirection] = useState(0);
@@ -103,9 +92,20 @@ export default function InteractiveGallery({ images, title }: InteractiveGallery
             }}
             className="absolute inset-0 w-full h-full"
           >
-            {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
+            {images[activeIndex].match(/\.(mp4|webm)(\?.*)?$/i) ? (
               <video
                 src={images[activeIndex]}
+                poster={(() => {
+                  if (poster && activeIndex === 0) return poster;
+                  // Look for the next available non-video image in the array to use as a poster
+                  for (let i = 1; i < images.length; i++) {
+                    const nextIdx = (activeIndex + i) % images.length;
+                    if (!images[nextIdx].match(/\.(mp4|webm)(\?.*)?$/i)) {
+                      return images[nextIdx];
+                    }
+                  }
+                  return poster;
+                })()}
                 className="w-full h-full object-contain"
                 controls
                 autoPlay
@@ -189,9 +189,17 @@ export default function InteractiveGallery({ images, title }: InteractiveGallery
                 : 'opacity-60 hover:opacity-100 hover:scale-105'
             }`}
           >
-            {img.match(/\.(mp4|webm)$/i) ? (
-              <div className="relative w-full h-full bg-black flex items-center justify-center">
-                <span className="text-white text-xs">▶</span>
+            {img.match(/\.(mp4|webm)(\?.*)?$/i) ? (
+              <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
+                {poster || (idx === 0 && images.length > 1) ? (
+                   <Image 
+                     src={poster || images[1]} 
+                     alt="Video Poster" 
+                     fill 
+                     className="object-cover opacity-50"
+                   />
+                ) : null}
+                <span className="text-white text-xs relative z-10">▶</span>
               </div>
             ) : (
               <Image
@@ -218,9 +226,17 @@ export default function InteractiveGallery({ images, title }: InteractiveGallery
               activeIndex === idx ? 'ring-2 ring-accent opacity-100' : 'opacity-60'
             }`}
           >
-            {img.match(/\.(mp4|webm)$/i) ? (
-              <div className="relative w-full h-full bg-black flex items-center justify-center">
-                <span className="text-white text-[10px]">▶</span>
+            {img.match(/\.(mp4|webm)(\?.*)?$/i) ? (
+              <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
+                {poster || (idx === 0 && images.length > 1) ? (
+                   <Image 
+                     src={poster || images[1]} 
+                     alt="Video Poster" 
+                     fill 
+                     className="object-cover opacity-50"
+                   />
+                ) : null}
+                <span className="text-white text-[10px] relative z-10">▶</span>
               </div>
             ) : (
               <Image

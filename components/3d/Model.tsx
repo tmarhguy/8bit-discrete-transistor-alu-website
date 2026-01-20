@@ -1,6 +1,6 @@
 'use client';
 
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, Center } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef, useState, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
@@ -15,135 +15,181 @@ interface ModelProps {
 
 export default function Model({ path, position, isSelected, onClick, isVisible }: ModelProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const materialsRef = useRef<THREE.MeshStandardMaterial[]>([]);
   const [hovered, setHovered] = useState(false);
-  const { scene } = useGLTF(path);
+  
+  // OPTIMIZATION: Enable Draco compression
+  // Note: The draco files must be present in public/draco/
+  const { scene } = useGLTF(path, true); 
 
   // Memoize geometry to prevent re-cloning on every render
-  const clonedScene = useMemo(() => scene.clone(), [scene]);
-
-  // Enhance material colors only once and cache references
-  useEffect(() => {
-    materialsRef.current = []; // Reset cache
+  // Memoize geometry AND apply materials immediately to prevent FOUC (Flash of Unstyled Content)
+  const clonedScene = useMemo(() => {
+    const s = scene.clone();
     
-    clonedScene.traverse((child) => {
+    // ROBUST MATERIAL OVERRIDE (FAIL-SAFE)
+    // 1. Identify the largest mesh -> That is the PCB Body.
+    // 2. Everything else is either Text (White) or Component (Metallic).
+    
+    let maxVolume = 0;
+    let pcbMesh: THREE.Mesh | null = null;
+
+    // First Pass: Find the PCB Body
+    s.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        if (mesh.geometry) {
+           mesh.geometry.computeBoundingBox();
+           const box = mesh.geometry.boundingBox;
+           if (box) {
+             const size = new THREE.Vector3();
+             box.getSize(size);
+             const volume = size.x * size.y * size.z;
+             if (volume > maxVolume) {
+               maxVolume = volume;
+               pcbMesh = mesh;
+             }
+           }
+        }
+      }
+    });
+
+    // Second Pass: Apply Materials
+    s.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         const material = mesh.material as THREE.MeshStandardMaterial;
         
-        if (material.isMeshStandardMaterial) {
-          // Create a new material to avoid modifying the original
-          const enhancedMaterial = material.clone();
-          
-          // Enable transparency for fading
-          enhancedMaterial.transparent = true;
-          enhancedMaterial.opacity = 1; // Start fully visible
+        if (material) {
+           mesh.material = material.clone();
+           const m = mesh.material as THREE.MeshStandardMaterial;
 
-          // Get the current color
-          const color = enhancedMaterial.color;
-          
-          // Check if it's a green-ish color (hue between 90-150 degrees)
-          const hsl = { h: 0, s: 0, l: 0 };
-          color.getHSL(hsl);
-          
-          if (hsl.h > 0.25 && hsl.h < 0.42) {
-            // It's green - make it deep green with high saturation
-            enhancedMaterial.color.setHSL(0.33, 0.9, 0.25); // Deep green
-          } else if (hsl.l < 0.3) {
-            // It's dark - make it pure black
-            enhancedMaterial.color.setHex(0x000000);
-          }
-          
-          // Reduce metalness and increase roughness for more vibrant colors
-          enhancedMaterial.metalness = 0.1;
-          enhancedMaterial.roughness = 0.7;
-          
-          // Disable environment map influence
-          enhancedMaterial.envMapIntensity = 0;
-          
-          // Ensure colors are in sRGB space
-          enhancedMaterial.color.convertSRGBToLinear();
-          
-          mesh.material = enhancedMaterial;
-          materialsRef.current.push(enhancedMaterial);
+           // IS THIS THE PCB BODY?
+           if (mesh === pcbMesh) {
+               // VISUAL: PREMIUM EMERALD GREEN FR4
+               m.color.setHex(0x004d40); 
+               m.roughness = 0.2;       
+               m.metalness = 0.1;        
+               m.envMapIntensity = 1.0;
+           } 
+           else {
+               const h = m.color.getHSL({ h: 0, s: 0, l: 0 });
+               
+               // 1. PURE BLACK (ICs / Plastic Connectors)
+               if (h.l < 0.25) { 
+                   m.color.setHex(0x000000); // F U L L  B L A C K
+                   m.roughness = 0.5;        // Matte-ish plastic
+                   m.metalness = 0.0;        
+                   m.envMapIntensity = 0.5;  
+               }
+               // 2. CRISP WHITE (Silkscreen)
+               else if (h.l > 0.8 && h.s < 0.2) {
+                   m.color.setHex(0xFFFFFF); 
+                   m.roughness = 1.0;
+                   m.metalness = 0.0;
+                   m.emissive.setHex(0x666666);
+               }
+               // 3. VIBRANT RED (LEDs)
+               // Hue 0-0.05 (Red) or 0.95-1.0 (Red)
+               else if ((h.h < 0.05 || h.h > 0.95) && h.s > 0.3) {
+                   m.color.setHex(0xE60000); // Deep Crisp Red
+                   m.roughness = 0.3;        // Shiny Plastic/Epoxy
+                   m.metalness = 0.0;
+                   m.emissive.setHex(0x330000); // Slight inner glow
+               }
+               // 4. GOLD / BRASS (Pins, Capacitor tops)
+               else if (h.h > 0.08 && h.h < 0.15) {
+                   m.color.setHex(0xFFD700); // Gold
+                   m.roughness = 0.3;
+                   m.metalness = 1.0;        // Full Metal
+                   m.envMapIntensity = 2.0;
+               }
+               // 5. EVERYTHING ELSE (Silver/Tin/Grey)
+               else {
+                   m.roughness = 0.4;
+                   m.metalness = 1.0;        // Assume it's metal (pins/pads)
+                   m.envMapIntensity = 1.5;
+               }
+           }
+           
+           m.transparent = true; // Keep for fade effects
         }
       }
     });
-  }, [clonedScene]);
+
+    // DEBUG: Assert Dimensions
+    const box = new THREE.Box3().setFromObject(s);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    // console.log(`[Dimension Check] ${path}:`, {x: size.x, y: size.y, z: size.z});
+
+    return s;
+  }, [scene]);
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      // PERFORMANCE OPTIMIZATION: Iterate cached materials instead of traversing scene graph
       const targetOpacity = isVisible ? 1 : 0;
       let visibleCount = 0;
       let needsUpdate = false;
-      
-      for (const material of materialsRef.current) {
-        if (Math.abs(material.opacity - targetOpacity) > 0.001) {
-          material.opacity = THREE.MathUtils.lerp(material.opacity, targetOpacity, delta * 5);
-          needsUpdate = true;
-        }
-        if (material.opacity > 0.01) visibleCount++;
-      }
-      
-      // Update group visibility based on cumulative opacity
-      if (groupRef.current.visible !== (visibleCount > 0)) {
-        groupRef.current.visible = visibleCount > 0;
-        needsUpdate = true;
-      }
 
-      // If we are still animating opacity, request another frame
-      if (needsUpdate) {
-        state.invalidate();
-      }
+      groupRef.current.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          const material = mesh.material as THREE.MeshStandardMaterial;
+          if (material) {
+            // Lerp opacity
+            if (Math.abs(material.opacity - targetOpacity) > 0.001) {
+              material.opacity = THREE.MathUtils.lerp(material.opacity, targetOpacity, delta * 5);
+              needsUpdate = true;
+            }
+            if (material.opacity > 0.01) {
+              material.visible = true;
+              visibleCount++;
+            } else {
+              material.visible = false;
+            }
+          }
+        }
+      });
+      // Optimize: Disable entire group if completely invisible
+      groupRef.current.visible = visibleCount > 0;
+      if (needsUpdate) state.invalidate();
     }
   });
 
   return (
-    <group
-      ref={groupRef}
+    <group 
+      ref={groupRef} 
       position={position}
       onClick={(e) => {
-        e.stopPropagation(); // Prevent click-through
+        e.stopPropagation();
         onClick();
       }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        setHovered(true);
-      }}
-      onPointerOut={(e) => {
-        e.stopPropagation();
-        setHovered(false);
-      }}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
     >
-      <primitive
-        object={clonedScene}
-        scale={hovered || isSelected ? 26.25 : 25}
-      />
+      <Center top>
+        <primitive
+          object={clonedScene}
+          scale={25} 
+        />
+      </Center>
       {isSelected && (
         <pointLight
           position={[0, 2, 0]}
-          intensity={0.5}
+          intensity={2}
           distance={5}
-          color="#ffffff"
+          color="#ffd700" 
         />
       )}
     </group>
   );
 }
 
-// Preload all models
+// Preload all models with Draco enabled
 const modelPaths = [
-  '/models/main_control.glb',
-  '/models/main_logic.glb',
-  '/models/add_sub.glb',
-  '/models/flags.glb',
-  '/models/led_panel_1.glb',
-  '/models/led_panel_2.glb',
-  '/models/led_panel_3.glb',
-  '/models/led_panel_4.glb',
+  '/models/alu_full.glb',
 ];
 
 modelPaths.forEach((path) => {
-  useGLTF.preload(path);
+  useGLTF.preload(path, true); // true enables Draco
 });

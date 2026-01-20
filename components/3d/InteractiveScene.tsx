@@ -1,10 +1,12 @@
 'use client';
 
+import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Grid, Stats } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Stage, Environment, ContactShadows, Stats, PerformanceMonitor } from '@react-three/drei';
+import SceneControls from './SceneControls';
+import ControlsLegend from './ControlsLegend';
+import { Suspense, useState } from 'react';
 import Model from './Model';
-import { models } from '@/lib/data/models';
 
 interface InteractiveSceneProps {
   selectedModel: string | null;
@@ -21,69 +23,77 @@ export default function InteractiveScene({
   showStats = true,
   modelVisibility
 }: InteractiveSceneProps) {
+  const [dpr, setDpr] = useState(1.5); 
+  const [autoRotate, setAutoRotate] = useState(false); // New State for turntable
+
   return (
     <Canvas
-      dpr={[1, 1]} // Locked to 1x for max performance
-      frameloop="demand" // Only render when needed (idle = 0% GPU)
-      camera={{ position: [15, 10, 15], fov: 50 }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
-      className="bg-background"
+      dpr={dpr}
+      frameloop="demand" // SceneControls handles demand rendering well
+      shadows
+      camera={{ position: [10, 15, 10], fov: 45 }} 
+      gl={{ 
+        antialias: true, 
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 0.8 
+      }}
+      className="bg-[#050505]"
+      style={{ width: '100%', height: '100%' }}
+      // Add keyboard listener to canvas for focus
+      tabIndex={0}
     >
-      {/* Stats */}
+      <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(2)} />
       {showStats && <Stats />}
 
-      {/* Lighting Setup - Simple & Fast */}
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <directionalLight position={[-5, 5, -5]} intensity={0.2} />
+      {/* PRO LIGHTING SETUP: STUDIO */}
+      <Environment preset="studio" blur={1} background={false} /> 
+      
+      {/* KEY LIGHT */}
+      <spotLight 
+        position={[10, 20, 10]} 
+        angle={0.2} 
+        penumbra={1} 
+        intensity={1.5} 
+        castShadow 
+        shadow-bias={-0.0001}
+      />
+      
+      {/* FILL LIGHT */}
+      <ambientLight intensity={0.1} />
 
-      {/* Grid Helper */}
+      {/* GROUNDING */}
+      <ContactShadows 
+        position={[0, -0.01, 0]} 
+        opacity={0.6} 
+        scale={60} 
+        blur={2} 
+        far={4.5} 
+        color="#000000"
+      />
+      
       {showGrid && (
-        <Grid
-          args={[50, 50]}
-          cellSize={1}
-          cellThickness={0.5}
-          cellColor="#6b7280"
-          sectionSize={5}
-          sectionThickness={1}
-          sectionColor="#9ca3af"
-          fadeDistance={40}
-          fadeStrength={1}
-          followCamera={false}
-          infiniteGrid={false}
-        />
+        <gridHelper args={[50, 50, '#1a1a1a', '#111111']} position={[0, -0.01, 0]} />
       )}
 
-      {/* Models */}
+      {/* Models - Single Assembly for Performance */}
       <Suspense fallback={null}>
-        {models.map((model) => (
-          <Model
-            key={model.name}
-            path={model.path}
-            position={model.position}
-            isSelected={selectedModel === model.name}
-            onClick={() => onModelSelect(model.name)}
-            isVisible={modelVisibility ? modelVisibility[model.name] : true}
-          />
-        ))}
+        <Model
+          path="/models/alu_full.glb"
+          position={[0, 0, 0]}
+          isSelected={false}
+          onClick={() => {}} 
+          isVisible={true}
+        />
       </Suspense>
 
-      {/* Enhanced Orbit Controls - Full freedom */}
-      <OrbitControls
-        makeDefault
-        minDistance={5}
-        maxDistance={50}
-        enableDamping
-        dampingFactor={0.05}
-        rotateSpeed={0.5}
-        panSpeed={0.5}
-        zoomSpeed={0.8}
-        minPolarAngle={0}
-        maxPolarAngle={Math.PI}
-        enablePan={true}
-        enableZoom={true}
-        enableRotate={true}
+      {/* NEW: Apple-like Interactions */}
+      <SceneControls 
+        autoRotate={autoRotate} 
+        onAutoRotateChange={setAutoRotate} 
       />
+      
+      {/* UI: Heads Up Display */}
+      <ControlsLegend />
     </Canvas>
   );
 }

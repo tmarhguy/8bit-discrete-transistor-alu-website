@@ -8,22 +8,22 @@ export default function Documentation() {
     {
       title: 'Complete Documentation',
       description: 'Architecture overview, design decisions, and implementation details',
-      link: 'https://github.com/tmarhguy/cpu#readme'
+      link: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu#readme'
     },
     {
       title: 'Opcode Reference',
       description: 'Complete operation table with truth tables and timing diagrams',
-      link: 'https://github.com/tmarhguy/cpu/tree/main/spec'
+      link: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu/tree/main/spec'
     },
     {
       title: 'KiCad Schematics',
       description: 'Complete PCB designs for all modules with component placement',
-      link: 'https://github.com/tmarhguy/cpu/tree/main/schematics'
+      link: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu/tree/main/schematics'
     },
     {
       title: 'Verilog Implementation',
       description: 'FPGA port with comprehensive testbenches and verification',
-      link: 'https://github.com/tmarhguy/cpu/tree/main/hardware'
+      link: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu/tree/main/hardware'
     },
   ];
 
@@ -84,7 +84,7 @@ export default function Documentation() {
         <FadeUp delay={0.5}>
           <div className="text-center mt-12">
             <a
-              href="https://github.com/tmarhguy/cpu"
+              href="https://github.com/tmarhguy/8bit-discrete-transistor-alu"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-accent text-background rounded-lg hover:bg-accent/90 transition-colors font-bold text-lg"

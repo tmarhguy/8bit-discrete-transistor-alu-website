@@ -8,22 +8,22 @@ export default function Architecture() {
   const components = [
     {
       title: '1-Bit Half Adder',
-      transistors: '~14 transistors',
+      transistors: '~20 transistors',
       description: 'XOR + AND gates'
     },
     {
       title: '1-Bit Full Adder',
-      transistors: '~28 transistors',
+      transistors: '~46 transistors',
       description: '2× Half Adders + OR'
     },
     {
       title: '8-Bit Ripple Adder',
-      transistors: '~224 transistors',
+      transistors: '~368 transistors',
       description: '8× Full Adders cascaded'
     },
     {
       title: 'Complete ALU Core',
-      transistors: '3,800+ transistors',
+      transistors: '3,488 transistors',
       description: 'Adder + Logic + Control'
     },
   ];

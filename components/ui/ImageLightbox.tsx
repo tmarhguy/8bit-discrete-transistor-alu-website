@@ -131,19 +131,31 @@ export default function ImageLightbox({
           onClick={(e) => e.stopPropagation()}
         >
           <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.7}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = offset.x * velocity.x;
+              const swipeConfidenceThreshold = 10000;
+              if (swipe < -swipeConfidenceThreshold) {
+                onNext?.();
+              } else if (swipe > swipeConfidenceThreshold) {
+                onPrevious?.();
+              }
+            }}
             style={{
               scale,
               x: position.x,
               y: position.y,
             }}
-            className="relative w-full h-full flex items-center justify-center"
+            className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
           >
             {currentType === 'video' ? (
               <video
                 src={currentImage}
                 controls
                 autoPlay
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-contain pointer-events-none"
                 playsInline
               />
             ) : (
@@ -152,7 +164,7 @@ export default function ImageLightbox({
                 alt={currentCaption || `Image ${currentIndex + 1}`}
                 width={1920}
                 height={1080}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-contain pointer-events-none"
                 priority
               />
             )}

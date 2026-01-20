@@ -1,5 +1,5 @@
 export const stats = {
-  transistors: 3800,
+  transistors: 3488,
   operations: 19,
   architecture: '8-bit',
   logicFamily: '5V',
@@ -11,9 +11,9 @@ export const stats = {
 
 export const heroStats = [
   {
-    value: '3,800+',
+    value: '3,488',
     label: 'Transistors',
-    description: 'Discrete components'
+    description: 'Total Transistors'
   },
   {
     value: '19',
