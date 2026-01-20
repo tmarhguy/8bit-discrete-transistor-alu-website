@@ -11,13 +11,19 @@ export default function ViewerPage() {
   return (
     <div 
       id="full-screen-viewer"
-      className="relative overflow-hidden bg-background"
-      style={{ width: '117.65vw', height: '117.65vh' }}
+      className="relative overflow-hidden bg-background w-screen h-[100dvh] supports-[height:100svh]:h-[100svh]"
+      style={{ 
+        paddingTop: 'env(safe-area-inset-top)', 
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)'
+      }}
     >
       {/* Back to Home Link */}
       <Link
         href="/"
         className="fixed top-4 left-4 md:top-6 md:left-6 z-50 glass glass-border px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-foreground hover:bg-white/5 transition-colors text-xs md:text-sm font-medium"
+        style={{ marginTop: 'env(safe-area-inset-top)', marginLeft: 'env(safe-area-inset-left)' }}
       >
         ← Back
       </Link>
@@ -27,3 +33,4 @@ export default function ViewerPage() {
     </div>
   );
 }
+

@@ -144,7 +144,7 @@ export default function InteractiveGallery({ images, title, poster }: Interactiv
            </div>
            <button
              onClick={() => setIsFullscreen(!isFullscreen)}
-             className="p-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-white/10 transition-colors"
+             className="min-w-[48px] min-h-[48px] p-3 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-white/10 transition-colors active:scale-95"
              aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
            >
              {isFullscreen ? (
@@ -161,16 +161,18 @@ export default function InteractiveGallery({ images, title, poster }: Interactiv
 
         {/* Navigation Controls (Visible on Hover/Touch) */}
         <button
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 min-w-[48px] min-h-[48px] w-12 h-12 rounded-full bg-black/50 text-white flex items-center justify-center opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 active:scale-95"
           onClick={() => paginate(-1)}
+          aria-label="Previous image"
         >
-          ←
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
         </button>
         <button
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 min-w-[48px] min-h-[48px] w-12 h-12 rounded-full bg-black/50 text-white flex items-center justify-center opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 active:scale-95"
           onClick={() => paginate(1)}
+          aria-label="Next image"
         >
-          →
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         </button>
       </div>
 

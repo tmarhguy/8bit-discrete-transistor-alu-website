@@ -139,6 +139,108 @@ function Modal({ model, onClose, onNext, onPrev }: {
     setZoom(z => Math.max(0.5, Math.min(3, z + delta)));
   };
 
+  // Gesture State
+  const touchState = useRef({
+    lastDistance: 0,
+    isPinching: false,
+    tapCount: 0,
+    lastTapTime: 0,
+  });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const getDistance = (touches: TouchList) => {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      // 1. Pinch Start
+      if (e.touches.length === 2) {
+        touchState.current.lastDistance = getDistance(e.touches);
+        touchState.current.isPinching = true;
+      }
+      
+      // 2. Tap Detection (1 finger)
+      if (e.touches.length === 1) {
+        const now = Date.now();
+        const timeSinceLastTap = now - touchState.current.lastTapTime;
+        
+        if (timeSinceLastTap < 300) {
+          touchState.current.tapCount++;
+        } else {
+          touchState.current.tapCount = 1;
+        }
+        touchState.current.lastTapTime = now;
+
+        // Perform Action Trigger after small delay to allow for accummulation
+        // (Simplified: we trigger on touch start for responsiveness or wait? 
+        //  Standard is to wait a bit or trigger on release. Let's check on touch end or just use count logic here)
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && touchState.current.isPinching) {
+        e.preventDefault(); // Prevent page scroll
+        const dist = getDistance(e.touches);
+        const delta = dist - touchState.current.lastDistance;
+        
+        // Zoom Sensitivity
+        const sensitivity = 0.005;
+        setZoom(z => Math.max(0.5, Math.min(3, z + delta * sensitivity)));
+        
+        touchState.current.lastDistance = dist;
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        touchState.current.isPinching = false;
+      }
+
+      // 1 Finger Tap Action Execution
+      // We check tap count. We might need a small timeout to distinguish double vs triple if we want to be perfect,
+      // but instant feedback is often better.
+      // Strategy: 
+      // - Double Tap: Immediate Zoom
+      // - Triple Tap: Immediate Reset
+      // - If we hit 3, we execute 3. If we hit 2, we execute 2. 
+      // - Problem: 3 triggers 2 first. 
+      // - Solution: Debounce/Timeout execution.
+      
+      if (e.changedTouches.length === 1 && touchState.current.tapCount > 0) {
+         // Logic inside timeout to allow accumulation
+         setTimeout(() => {
+            const count = touchState.current.tapCount;
+            const now = Date.now();
+            // Only execute if no new taps came in (simple check)
+            if (now - touchState.current.lastTapTime >= 250) {
+                if (count === 2) {
+                    setZoom(z => Math.min(z * 1.5, 3)); // Zoom In
+                    touchState.current.tapCount = 0;
+                } else if (count === 3) {
+                    setZoom(1); // Reset
+                    touchState.current.tapCount = 0;
+                }
+            }
+         }, 260);
+      }
+    };
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();

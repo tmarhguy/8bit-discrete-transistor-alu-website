@@ -7,36 +7,41 @@ import { motion } from 'framer-motion';
 export default function DesignPhilosophy() {
   const designDecisions = [
     {
-      title: 'Why Discrete Transistors?',
-      rationale: 'Building from transistor level provides deep understanding of digital logic fundamentals. While ICs would be simpler, designing each gate from MOSFETs teaches circuit design.',
+      title: 'The Pursuit of Verifiability',
+      rationale: 'Initial designs relied on 74xx ICs to tame propagation delay and cost. But to depend on "black boxes" is to accept a hidden complexity. I chose to expose the 2,864 transistors within them, replacing abstraction with discrete MOSFETs. It is a deliberate move from convenient simulation to a machine of absolute, physically verifiable truth.',
       tradeoffs: [
-        'Complete control over circuit behavior',
-        'Understanding from first principles',
-        'Unique portfolio piece',
+        'Zero "Black Box" Abstractions',
+        'Physical Verifiability',
+        'From $2 ICs to Custom Logic',
       ],
       colSpan: 'md:col-span-2',
       bgGradient: 'from-blue-500/10 to-purple-500/10'
     },
     {
-      title: 'Why Ripple-Carry?',
-      rationale: 'Chosen for simplicity and optimization. While slower than lookahead, it requires significantly fewer gates.',
+      title: 'MOSFET-Level Efficiency',
+      rationale: 'Textbook logic gates are inefficient in silicon. By ignoring standard gate-level design and optimizing at the transistor level (NAND/NOR topologies), I reduced the complexity of a single MUX from 66 to 42 transistors. This 36% reduction bridges the gap between amateur schematics and genuine VLSI efficiency.',
       tradeoffs: [
-        '144 Discrete Transistors (Carry Chain)',
-        'Simpler verification',
-        'Easier to debug',
+        'Custom Transistor Topologies',
+        '36% Silicon Reduction',
+        'Transmission Gate Logic',
       ],
       colSpan: 'md:col-span-1',
-      bgGradient: 'from-green-500/10 to-teal-500/10'
+      bgGradient: 'from-emerald-500/10 to-teal-500/10'
     },
     {
-      title: 'Why 19 Operations?',
-      rationale: 'Selected operations cover all essential categories: arithmetic (ADD/SUB), logic (AND/OR), and bit manipulation, providing a complete instruction set.',
+      title: 'Pragmatic Constraint',
+      rationale: 'Engineering without constraint is a fantasy. This 19-operation ISA represents a necessary compromise—sacrificing the theoretical elegance of a larger instruction set for a design that remains robust and architecturally sound.',
       colSpan: 'md:col-span-1',
       bgGradient: 'from-orange-500/10 to-red-500/10'
     },
     {
-      title: 'Why 8-bit Architecture?',
-      rationale: 'Provides the perfect balance between complexity and capability. Matches classic microprocessors like the 6502 and Z80.',
+      title: 'The Goldilocks Architecture',
+      rationale: 'Two bits is a toy; thirty-two is a career. Eight bits represents the absolute limit of what a solo sophomore can verify alone. It mirrors the constraints that shaped legendary chips like the 6502, balancing the ambition of a CPU with the reality of one student\'s bandwidth.',
+      tradeoffs: [
+        'Designed Solo',
+        'Sophomore Year Project',
+        '3,488 Discrete Transistors',
+      ],
       colSpan: 'md:col-span-2',
       bgGradient: 'from-indigo-500/10 to-blue-500/10'
     },
@@ -54,7 +59,7 @@ export default function DesignPhilosophy() {
             </p>
           </FadeUp>
           <TextReveal 
-            text="If you struggle to sleep at 2am and your noisy brain suggests building an ALU from discrete transistors up, it's important that you listen."
+            text="If you struggle to sleep at 3am and your noisy brain suggests building an ALU from discrete transistors up, it's important that you listen."
             className="text-4xl md:text-6xl font-bold leading-tight tracking-tight text-white mb-12 max-w-5xl"
           />
         </div>
@@ -62,7 +67,7 @@ export default function DesignPhilosophy() {
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
           {designDecisions.map((decision, index) => (
-            <FadeUp key={decision.title} delay={index * 0.1} className={`${decision.colSpan} h-full`}>
+            <FadeUp key={decision.title} delay={index * 0.001} className={`${decision.colSpan} h-full`}>
               <div className={`h-full relative overflow-hidden rounded-3xl p-8 md:p-12 border border-white/10 bg-gradient-to-br ${decision.bgGradient} backdrop-blur-3xl transition-transform hover:scale-[1.01] duration-500`}>
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>

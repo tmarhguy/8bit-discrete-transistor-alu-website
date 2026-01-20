@@ -8,7 +8,7 @@ export default function TechnicalSpecs() {
     { parameter: 'Supply Voltage', value: '5V DC', tolerance: '±5%' },
     { parameter: 'Logic High (VIH)', value: '3.5V', tolerance: 'min' },
     { parameter: 'Logic Low (VIL)', value: '1.5V', tolerance: 'max' },
-    { parameter: 'Propagation Delay', value: '~400ns', tolerance: 'typ' },
+    { parameter: 'Propagation Delay', value: '~80ns', tolerance: 'typ' },
     { parameter: 'Power Consumption', value: '~2.5W', tolerance: 'max @ 5V' },
     { parameter: 'Operating Temperature', value: '0°C to 70°C', tolerance: '' },
   ];

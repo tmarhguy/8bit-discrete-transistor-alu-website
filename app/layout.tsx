@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import CursorLoader from "@/components/ui/CursorLoader";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,13 +10,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://alu-website.vercel.app'),
+  // Use the primary production domain so Open Graph / Twitter cards resolve correctly
+  metadataBase: new URL('https://alu.tmarhguy.com'),
   alternates: {
     canonical: '/',
   },
   title: {
-    default: "Discrete 8-Bit ALU | Interactive 3D CPU Portfolio",
-    template: "%s | 8-Bit ALU Portfolio"
+    default: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
+    template: "%s | 8-Bit Discrete Transistor ALU"
   },
   description: "Experience the engineering of a discrete 8-bit ALU built from 3,488 transistors. Features interactive 3D visualizations, detailed logic schematics, and a comprehensive build journey.",
   keywords: [
@@ -50,26 +51,29 @@ export const metadata: Metadata = {
   },
   category: 'technology',
   openGraph: {
-    title: "Discrete 8-Bit ALU | Interactive 3D Engineering Portfolio",
+    title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "Deep dive into a functional 8-bit ALU crafted from 3,488 transistors. Interactive 3D models and technical documentation by Tyrone Marhguy.",
-    url: 'https://alu-website.vercel.app',
-    siteName: "8-Bit ALU Portfolio",
+    // Use the canonical, user-facing URL
+    url: 'https://alu.tmarhguy.com',
+    siteName: "8-Bit ALU 8-Bit Discrete Transistor ALU",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: 'https://res.cloudinary.com/du4kxtjpw/image/upload/v1737336040/alu-website/pcb/renders/alu_slant.png',
+        // Hero system photo used as the primary Open Graph preview image
+        url: 'https://res.cloudinary.com/du4kxtjpw/image/upload/w_1200,h_630,c_pad,b_black,q_auto,f_jpg/alu-website/pcb/renders/alu_slant.jpg',
         width: 1200,
         height: 630,
-        alt: 'Interactive 3D Render of 8-Bit Discrete Transistor ALU',
+        alt: 'Physical 8-Bit Discrete Transistor ALU',
+        type: 'image/jpeg',
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Discrete 8-Bit ALU | Interactive 3D Engineering Portfolio",
+    title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "3,488 transistors. One 8-bit ALU. Explore the engineering behind a hand-built computer component by Tyrone Marhguy.",
-    images: ['https://res.cloudinary.com/du4kxtjpw/image/upload/v1737336040/alu-website/pcb/renders/alu_slant.png'],
+    images: ['https://res.cloudinary.com/du4kxtjpw/image/upload/w_1200,h_630,c_pad,b_black,q_auto,f_jpg/alu-website/pcb/renders/alu_slant.jpg'],
     creator: '@tmarhguy', // Verification if user has twitter
   },
 };
@@ -77,7 +81,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: 'black',
   width: 'device-width',
-  initialScale: 1,
+  initialScale: 0.8,
   maximumScale: 5,
 };
 
@@ -87,9 +91,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ backgroundColor: '#000000' }}>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Critical Resource Hints for Performance */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* PWA Meta Tags */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="8-Bit ALU" />
+        <link rel="apple-touch-icon" href="/media/hero/hero_system_photo.png" />
+        
+        {/* Mobile Optimization */}
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
       <body className={`${inter.variable} antialiased`}>
-        <CursorLoader />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -115,7 +139,7 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "CreativeWork",
-                "name": "8-Bit Transistor ALU Engineering Portfolio",
+                "name": "8-Bit Transistor ALU Engineering",
                 "description": "Technical deep dive into the design and fabrication of a discrete transistor ALU.",
                 "educationalLevel": "University/Undergraduate",
                 "author": {

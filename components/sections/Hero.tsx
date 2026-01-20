@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-12 sm:pt-16 pb-6"
+      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-black pt-16 sm:pt-24 pb-6"
     >
       {/* 1. Ambient Lighting (Subtle Top Gradient) */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-black to-black pointer-events-none z-0 opacity-50" />
@@ -27,7 +27,7 @@ export default function Hero() {
       {/* 2. Main Product Image (Top) */}
       <motion.div 
         style={{ scale: imageScale, y: imageY }}
-        className="relative z-10 w-full max-w-[1400px] h-[30vh] sm:h-[40vh] flex items-end justify-center perspective-[1000px] mb-1 sm:mb-2"
+        className="relative z-10 w-full max-w-[1400px] h-[30vh] sm:h-[40vh] flex items-center justify-center perspective-[1000px] mb-1 sm:mb-2 lg:mb-6"
       >
         <motion.div 
            initial={{ scale: 0.95, rotateX: 5 }}
@@ -42,7 +42,7 @@ export default function Hero() {
               src="https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/pcb/renders/alu_slant.png"
               alt="8-Bit Transistor ALU"
               fill
-              className="object-contain object-bottom drop-shadow-[0_-20px_60px_rgba(212,175,55,0.1)]"
+              className="object-contain object-center drop-shadow-[0_-20px_60px_rgba(212,175,55,0.1)]"
               priority
               quality={90}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw"
@@ -61,17 +61,17 @@ export default function Hero() {
            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Main Title */}
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tighter text-white mb-4">
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tighter text-white mb-4 lg:mb-10">
             8-Bit ALU
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl sm:text-2xl text-[#86868b] font-medium max-w-2xl mx-auto mb-6 leading-relaxed">
+          <p className="text-xl sm:text-2xl text-[#86868b] font-medium max-w-2xl mx-auto mb-6 lg:mb-14 leading-relaxed">
             3,488 transistors. Built to answer a 3am question: Could I rebuild a computer, <span className="font-bold">solo</span>, in a medieval timeline?'
           </p>
 
           {/* Links - Gold */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-8 lg:mt-20 mb-12">
              <a 
                href="/viewer" 
                className="group relative px-8 py-4 bg-[#D4AF37] text-black font-bold rounded-full text-lg shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#F2CD5C] hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all duration-300 flex items-center gap-3"

@@ -10,7 +10,7 @@
 
 **Live Site:** [alu.tmarhguy.com](https://alu.tmarhguy.com)
 
-![Homepage Preview](homepage.png)
+![Homepage Preview](public/media/readme/homepage.png)
 
 ## The Core Project: Hardware First
 
@@ -27,39 +27,44 @@ This platform bridges the gap between hardware and software, offering a high-per
 To deliver a cinematic experience (4K video, high-fidelity 3D models) without compromising web performance (Lighthouse 97/100), we engineered a custom asset pipeline associated with this repo.
 
 ### 1. Cloudinary Asset Cloud & Batch Processing
+
 We do not host heavy assets in the Git repository. Instead, we utilize a **batch-processing pipeline** to manage media:
 
-*   **Batch Upload Scripts**: Custom Node.js scripts (`scripts/upload-new-videos.js`) automate the ingestion of raw footage.
-*   **Auto-Optimization**: Assets are programmatically tagged and transformed. 4K ProRes footage is automatically transcoded to efficiently streamed `webm`/`mp4` formats with adaptive bitrates.
-*   **Bandwidth Savings**: Offloading assets reduces the initial bundle size by ~90% and allows for edge-caching of media.
+* **Batch Upload Scripts**: Custom Node.js scripts (`scripts/upload-new-videos.js`) automate the ingestion of raw footage.
+* **Auto-Optimization**: Assets are programmatically tagged and transformed. 4K ProRes footage is automatically transcoded to efficiently streamed `webm`/`mp4` formats with adaptive bitrates.
+* **Bandwidth Savings**: Offloading assets reduces the initial bundle size by ~90% and allows for edge-caching of media.
 
 ### 2. The 3D Optimization Workflow
+
 The centerpiece "Digital Twin" is a 1:1 render of the physical PCB. Rendering 3,000+ components in a browser required aggressive optimization:
 
-*   **Draco Compression**: Raw CAD files (`.step`) from KiCad are converted to GLTF and compressed using Draco geometry compression, reducing file size from **50MB+** to **<5MB**.
-*   **Instancing & Geometry Sharing**: We utilize material cloning and geometry sharing methods in `React Three Fiber` to keep draw calls low, even when rendering thousands of transistors.
-*   **Progressive Loading**: Models use `Suspense` boundaries to load progressively, ensuring the UI remains responsive even on mobile networks.
+* **Draco Compression**: Raw CAD files (`.step`) from KiCad are converted to GLTF and compressed using Draco geometry compression, reducing file size from **50MB+** to **<5MB**.
+* **Instancing & Geometry Sharing**: We utilize material cloning and geometry sharing methods in `React Three Fiber` to keep draw calls low, even when rendering thousands of transistors.
+* **Progressive Loading**: Models use `Suspense` boundaries to load progressively, ensuring the UI remains responsive even on mobile networks.
 
-![3D Webview Preview](3d_Webview.png)
+![3D Webview Preview](public/media/readme/3d_Webview.png)
 
 ## Tech Stack
 
 ### Frontend Core
-*   **Framework**: [Next.js 14](https://nextjs.org/) (App Router) - Selected for its robust **Static Site Generation (SSG)** capabilities, crucial for documentation SEO and performance.
-*   **Language**: **TypeScript** - 100% strict type safety to mirror the rigor of the hardware verification.
-*   **Styling**: **Tailwind CSS** - Utility-first structure allowing for rapid, consistent UI iteration.
+
+* **Framework**: [Next.js 14](https://nextjs.org/) (App Router) - Selected for its robust **Static Site Generation (SSG)** capabilities, crucial for documentation SEO and performance.
+* **Language**: **TypeScript** - 100% strict type safety to mirror the rigor of the hardware verification.
+* **Styling**: **Tailwind CSS** - Utility-first structure allowing for rapid, consistent UI iteration.
 
 ### Interactive 3D
-*   **Engine**: **Three.js** via [React Three Fiber](https://docs.pmnd.rs/react-three-fiber).
-*   **Abstractions**: `@react-three/drei` for camera controls (`OrbitControls`), environment mapping, and model loading utilities.
+
+* **Engine**: **Three.js** via [React Three Fiber](https://docs.pmnd.rs/react-three-fiber).
+* **Abstractions**: `@react-three/drei` for camera controls (`OrbitControls`), environment mapping, and model loading utilities.
 
 ### Performance
-*   **RSC (React Server Components)**: We move as much logic to the server as possible, keeping the client bundle lean.
-*   **Dynamic Imports**: Heavy components (like the 3D Viewer) are lazy-loaded to prioritize First Contentful Paint (FCP).
 
-![Lighthouse Score](lighthouse-97.png)
+* **RSC (React Server Components)**: We move as much logic to the server as possible, keeping the client bundle lean.
+* **Dynamic Imports**: Heavy components (like the 3D Viewer) are lazy-loaded to prioritize First Contentful Paint (FCP).
 
-![Project Metrics](metrics.png)
+![Lighthouse Score](public/media/readme/lighthouse-97.png)
+
+![Project Metrics](public/media/readme/metrics.png)
 
 ## Local Development
 
@@ -93,21 +98,22 @@ To run this documentation suite locally:
 ## Verification
 
 This project runs a strict CI/CD pipeline:
-*   **Lighthouse CI**: Enforces performance budgets (Performance > 90).
-*   **Type Check**: `tsc --noEmit` runs on every commit.
+* **Lighthouse CI**: Enforces performance budgets (Performance > 90).
+* **Type Check**: `tsc --noEmit` runs on every commit.
 
 ## Related Resources
 
-*   **[Hardware Source Code](https://github.com/tmarhguy/8bit-discrete-transistor-alu)**: The 3,488 transistors, KiCad files, and Verilog.
-*   **[Live Portfolio](https://tmarhguy.com)**: More of my engineering work.
+* **[TRANSISTOR_COUNT_REPORT.md](TRANSISTOR_COUNT_REPORT.md)**: A detailed breakdown of the 3,488 transistors, categorizing them by 74xx ICs vs discrete logic.
+* **[Hardware Source Code](https://github.com/tmarhguy/8bit-discrete-transistor-alu)**: The 3,488 transistors, KiCad files, and Verilog.
+* **[Live Portfolio](https://tmarhguy.com)**: More of my engineering work.
 
 ## Contact
 
-- **Email**: [tmarhguy@gmail.com](mailto:tmarhguy@gmail.com)
-- **Portfolio**: [tmarhguy.com](https://tmarhguy.com)
-- **LinkedIn**: [Tyrone Marhguy](https://linkedin.com/in/tmarhguy)
-- **Twitter**: [@marhguy_tyrone](https://twitter.com/marhguy_tyrone)
-- **Substack**: [tmarhguy.substack.com](https://tmarhguy.substack.com)
+* **Email**: [tmarhguy@gmail.com](mailto:tmarhguy@gmail.com)
+* **Portfolio**: [tmarhguy.com](https://tmarhguy.com)
+* **LinkedIn**: [Tyrone Marhguy](https://linkedin.com/in/tmarhguy)
+* **Twitter**: [@marhguy_tyrone](https://twitter.com/marhguy_tyrone)
+* **Substack**: [tmarhguy.substack.com](https://tmarhguy.substack.com)
 
 ---
 

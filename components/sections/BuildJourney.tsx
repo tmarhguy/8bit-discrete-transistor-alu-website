@@ -1,42 +1,32 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import FadeUp from '../ui/FadeUp';
 import InteractiveGallery from '../ui/InteractiveGallery';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
+import { haptics } from '@/lib/utils/haptics';
 import { buildJourneyStages } from '@/lib/data/buildJourney';
 import { BuildJourneyStage } from '@/lib/data/buildJourney';
 
 function TimelineNode({ 
   stage, 
   index, 
-  mouseX,
   isSelected 
 }: { 
   stage: BuildJourneyStage; 
   index: number; 
-  mouseX: any;
   isSelected: boolean;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const distance = useTransform(mouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
-  });
-
-  const widthSync = useTransform(distance, [-150, 0, 150], [60, 100, 60]);
-  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
-
   const isCompleted = stage.status === 'completed';
   const isUpcoming = stage.status === 'upcoming';
   const isInProgress = stage.status === 'in-progress';
 
   return (
     <motion.div
-      ref={ref}
-      style={{ width }}
       className="relative flex flex-col items-center group cursor-pointer flex-shrink-0"
+      style={{ width: 60 }}
     >
       {/* Node Circle */}
       <motion.div
@@ -51,10 +41,9 @@ function TimelineNode({
           }
         `}
         style={{ 
-          width: width,
-          height: width,
+          width: 60,
+          height: 60,
         }}
-        whileHover={{ scale: 1.2 }}
       >
       <div className="absolute inset-0 flex items-center justify-center">
           <span className={`font-bold ${isCompleted ? 'text-white' : 'text-white/60'}`}>
@@ -64,10 +53,9 @@ function TimelineNode({
       </motion.div>
 
       {/* Label - always visible */}
-      <div className={`absolute top-full mt-4 text-center pointer-events-none w-32 ${isSelected ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
+      <div className={`absolute top-full mt-4 text-center pointer-events-none w-32 left-1/2 -translate-x-1/2 hidden md:block ${isSelected ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
         <motion.p 
           className={`text-xs font-semibold transition-colors mb-1 line-clamp-2 ${isSelected ? 'text-white' : 'text-white/60 group-hover:text-white'}`}
-          whileHover={{ scale: 1.05 }}
         >
           {stage.title}
         </motion.p>
@@ -91,7 +79,7 @@ function DetailPanel({
   if (!stage) {
     return (
       <div className="flex items-center justify-center h-full text-gray-500">
-        <p className="text-lg">Hover over a milestone to see details</p>
+        <p className="text-lg">Select a milestone to see details</p>
       </div>
     );
   }
@@ -115,22 +103,24 @@ function DetailPanel({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <button
-                onClick={onPrev}
+                onClick={() => { onPrev?.(); haptics.tap(); }}
                 disabled={!onPrev}
-                className="p-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-[#D4AF37] hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed group"
+                className="p-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-[#D4AF37] hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed group min-w-[48px] min-h-[48px] flex items-center justify-center"
                 title="Previous Milestone"
+                aria-label="Previous Milestone"
               >
-                <ChevronLeft className="w-5 h-5 group-active:scale-90 transition-transform" />
+                <ChevronLeft className="w-6 h-6 group-active:scale-90 transition-transform" />
               </button>
               <button
-                onClick={onNext}
+                onClick={() => { onNext?.(); haptics.tap(); }}
                 disabled={!onNext}
-                className="p-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-[#D4AF37] hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed group"
+                className="p-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-[#D4AF37] hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed group min-w-[48px] min-h-[48px] flex items-center justify-center"
                 title="Next Milestone"
+                aria-label="Next Milestone"
               >
-                <ChevronRight className="w-5 h-5 group-active:scale-90 transition-transform" />
+                <ChevronRight className="w-6 h-6 group-active:scale-90 transition-transform" />
               </button>
-              <span className="ml-2 text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold">
+              <span className="ml-2 text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold hidden sm:inline">
                 Navigate Timeline
               </span>
             </div>
@@ -219,7 +209,27 @@ function DetailPanel({
 
 export default function BuildJourney() {
   const [selectedStage, setSelectedStage] = useState<BuildJourneyStage | null>(buildJourneyStages[0]);
-  const mouseX = useMotionValue(Infinity);
+
+  const handleStageSelect = (stage: BuildJourneyStage) => {
+    haptics.selectionChange();
+    setSelectedStage(stage);
+  };
+
+  const handleNext = () => {
+    const currentIndex = buildJourneyStages.findIndex(s => s.id === selectedStage?.id);
+    if (currentIndex < buildJourneyStages.length - 1) {
+      haptics.selectionChange();
+      setSelectedStage(buildJourneyStages[currentIndex + 1]);
+    }
+  };
+
+  const handlePrev = () => {
+    const currentIndex = buildJourneyStages.findIndex(s => s.id === selectedStage?.id);
+    if (currentIndex > 0) {
+      haptics.selectionChange();
+      setSelectedStage(buildJourneyStages[currentIndex - 1]);
+    }
+  };
 
   return (
     <section id="build-journey" className="relative py-24 overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black">
@@ -238,28 +248,37 @@ export default function BuildJourney() {
 
         {/* Horizontal Timeline Dock */}
         <FadeUp delay={0.2}>
-          <div className="mb-16 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto pb-8">
-            <div 
-              className="relative mx-auto min-w-[900px] lg:min-w-0 lg:max-w-5xl"
-              onMouseMove={(e) => mouseX.set(e.pageX)}
-              onMouseLeave={() => mouseX.set(Infinity)}
-            >
+          <div className="mb-16 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto pb-8 scrollbar-hide relative snap-x snap-mandatory">
+            {/* Scroll Hint for Mobile */}
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 lg:hidden pointer-events-none">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/20 animate-pulse">
+                <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                </svg>
+                <span className="text-xs text-white/60 font-medium">Scroll timeline</span>
+                <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+            
+            <div className="relative mx-auto w-max lg:w-auto lg:max-w-5xl mt-12 lg:mt-0">
               {/* Timeline Line */}
               <div className="absolute top-[30px] left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               
               {/* Nodes */}
-              <div className="relative flex justify-between items-start px-8 py-4">
+              <div className="relative flex justify-between items-start px-8 py-4 gap-4 lg:gap-0">
                 {buildJourneyStages.map((stage, index) => {
                   const isSelected = selectedStage?.id === stage.id;
                   return (
                     <div
                       key={stage.id}
-                      onClick={() => setSelectedStage(stage)}
+                      onClick={() => handleStageSelect(stage)}
+                      className="snap-center"
                     >
                       <TimelineNode 
                         stage={stage} 
                         index={index} 
-                        mouseX={mouseX}
                         isSelected={isSelected}
                       />
                     </div>
@@ -279,14 +298,14 @@ export default function BuildJourney() {
                 onPrev={(() => {
                   const currentIndex = buildJourneyStages.findIndex(s => s.id === selectedStage?.id);
                   if (currentIndex > 0) {
-                    return () => setSelectedStage(buildJourneyStages[currentIndex - 1]);
+                    return handlePrev;
                   }
                   return undefined;
                 })()}
                 onNext={(() => {
                   const currentIndex = buildJourneyStages.findIndex(s => s.id === selectedStage?.id);
                   if (currentIndex < buildJourneyStages.length - 1) {
-                    return () => setSelectedStage(buildJourneyStages[currentIndex + 1]);
+                    return handleNext;
                   }
                   return undefined;
                 })()}

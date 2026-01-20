@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FadeUp from '../ui/FadeUp';
 import VideoPlayer from '../ui/VideoPlayer';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
+import { haptics } from '@/lib/utils/haptics';
 import { featuredVideos, buildVideos, type VideoItem } from '@/lib/data/videos';
 
 export default function VideoShowcase() {
@@ -16,12 +18,21 @@ export default function VideoShowcase() {
   const selectedVideo = showcaseVideos[currentIndex];
 
   const handleNext = () => {
+    haptics.selectionChange();
     setCurrentIndex((prev) => (prev + 1) % showcaseVideos.length);
   };
 
   const handlePrev = () => {
+    haptics.selectionChange();
     setCurrentIndex((prev) => (prev - 1 + showcaseVideos.length) % showcaseVideos.length);
   };
+
+  // Swipe gesture support for mobile
+  const { ref: swipeRef } = useSwipeGesture({
+    onSwipeLeft: handleNext,
+    onSwipeRight: handlePrev,
+    threshold: 50,
+  });
 
   // Keyboard navigation
   useEffect(() => {
@@ -62,6 +73,7 @@ export default function VideoShowcase() {
         <FadeUp delay={0.2}>
           <div className="relative mb-12">
             <motion.div
+              ref={swipeRef}
               key={selectedVideo.id}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
@@ -75,7 +87,7 @@ export default function VideoShowcase() {
                   handlePrev();
                 }
               }}
-              className="cursor-grab active:cursor-grabbing"
+              className="cursor-grab active:cursor-grabbing touch-pan-y"
             >
               <VideoPlayer
                 key={selectedVideo.id}
@@ -100,23 +112,23 @@ export default function VideoShowcase() {
                 <p className="text-muted-foreground text-lg leading-relaxed">{selectedVideo.description}</p>
               </div>
 
-              {/* Right: Navigation Controls */}
-              <div className="flex items-center gap-4">
+              {/* Right: Navigation Controls - Optimized touch targets */}
+              <div className="flex items-center gap-3 sm:gap-4">
                 <button 
                   onClick={handlePrev}
-                  className="p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-95 border border-white/5"
+                  className="p-3 sm:p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-90 border border-white/5 min-w-[48px] min-h-[48px] flex items-center justify-center"
                   aria-label="Previous Video"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
                 
-                <span className="text-zinc-500 font-mono font-medium text-lg min-w-[3rem] text-center">
+                <span className="text-zinc-500 font-mono font-medium text-base sm:text-lg min-w-[3rem] text-center">
                   {currentIndex + 1} / {showcaseVideos.length}
                 </span>
 
                 <button 
                   onClick={handleNext}
-                  className="p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-95 border border-white/5"
+                  className="p-3 sm:p-3 rounded-full bg-zinc-800 text-white hover:bg-zinc-700 hover:text-accent transition-all active:scale-90 border border-white/5 min-w-[48px] min-h-[48px] flex items-center justify-center"
                   aria-label="Next Video"
                 >
                   <ChevronRight className="w-6 h-6" />

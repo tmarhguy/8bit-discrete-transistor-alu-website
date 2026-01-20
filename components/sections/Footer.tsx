@@ -21,7 +21,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           {/* Project Info */}
           <div>
-            <h3 className="text-xl font-bold text-foreground mb-4">8-Bit Transistor ALU</h3>
+            <h3 className="text-xl font-bold text-foreground mb-4">
+              <a href="https://alu.tmarhguy.com" className="hover:text-primary transition-colors">
+                8-Bit Transistor ALU
+              </a>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               A complete Arithmetic Logic Unit designed and built from 3,488 transistors.
               Demonstrating first-principles computer architecture.
@@ -32,11 +36,18 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold text-foreground mb-4">The Maker</h4>
             <div className="space-y-2">
-              <p className="text-sm font-medium text-foreground">Tyrone Marhguy</p>
-              <p className="text-xs text-muted-foreground">
-                Computer Engineering BSE<br />
-                University of Pennsylvania
-              </p>
+              <a href="https://tmarhguy.com" target="_blank" rel="noopener noreferrer" className="block text-sm font-medium text-foreground hover:text-primary transition-colors w-fit">
+                Tyrone Marhguy
+              </a>
+              <div className="text-xs text-muted-foreground">
+                <a href="https://cmpe.seas.upenn.edu/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  Computer Engineering BSE
+                </a>
+                <br />
+                <a href="https://upenn.edu" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  University of Pennsylvania
+                </a>
+              </div>
               <p className="text-xs text-muted-foreground italic pt-1">Personal Project</p>
               
               <div className="flex items-center gap-3 pt-3">
@@ -132,7 +143,7 @@ export default function Footer() {
             3,488 transistors. Hand-routed. Built to answer a 3am question: <em>Could I rebuild a computer, solo, in a medieval timeline? </em>
             The answer? Yes. Computers would be invented long before cars and quarter zips!
             <br/><br/>
-            © 2026 8-Bit Transistor ALU Project. Built with passion.
+            © 2026 <a href="https://alu.tmarhguy.com" className="hover:text-foreground transition-colors">8-Bit Transistor ALU Project</a>. Built with passion.
           </p>
         </div>
       </div>

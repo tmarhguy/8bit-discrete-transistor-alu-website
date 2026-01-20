@@ -53,3 +53,7 @@ user-notes.md
 
 # test artifacts
 coverage/
+
+# Unreferenced root media files
+IMG_*.jpg
+IMG_*.PNG

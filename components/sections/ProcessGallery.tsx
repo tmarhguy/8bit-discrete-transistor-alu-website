@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import FadeUp from '../ui/FadeUp';
 import ImageLightbox from '../ui/ImageLightbox';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
+import { haptics } from '@/lib/utils/haptics';
 import {
   siliconGallery,
   logicGallery,
@@ -46,7 +48,17 @@ export default function ProcessGallery() {
     if (newIndex < 0) newIndex = activeItems.length - 1;
     if (newIndex >= activeItems.length) newIndex = 0;
     setCurrentIndex(newIndex);
+    
+    // Haptic feedback on navigation
+    haptics.selectionChange();
   };
+
+  // Swipe gesture support for mobile
+  const { ref: swipeRef } = useSwipeGesture({
+    onSwipeLeft: () => paginate(1),
+    onSwipeRight: () => paginate(-1),
+    threshold: 50,
+  });
 
   const openLightbox = () => {
     setLightboxImages(activeItems.map((item) => item.image));
@@ -84,7 +96,7 @@ export default function ProcessGallery() {
             <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white tracking-tight">
               Process Gallery
             </h2>
-            <p className="text-lg text-zinc-400 max-w-2xl mx-auto font-light">
+            <p className="text-lg text-zinc-400 max-w-2xl mx-auto font-light px-4">
               Explore the engineering journey from silicon level to physical assembly.
             </p>
           </div>
@@ -92,7 +104,7 @@ export default function ProcessGallery() {
 
         {/* Categories Tabs */}
         <div className="flex justify-center mb-16">
-          <div className="flex flex-wrap gap-2 p-1 bg-zinc-900/80 backdrop-blur-md rounded-full border border-white/10 shadow-xl">
+          <div className="flex flex-wrap gap-2 p-1 bg-zinc-900/80 backdrop-blur-md rounded-2xl md:rounded-full border border-white/10 shadow-xl justify-center">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -117,69 +129,88 @@ export default function ProcessGallery() {
         {/* Carousel View */}
         {activeItems.length > 0 ? (
           <div className="max-w-5xl mx-auto">
-            <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/50 shadow-2xl group">
+            <div 
+              ref={swipeRef}
+              className="relative flex flex-col md:block md:aspect-video rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/50 shadow-2xl group touch-pan-y"
+            >
               
-              {/* Main Content Animation */}
-              <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                <motion.div
-                  key={currentIndex}
-                  custom={direction}
-                  variants={variants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 }
-                  }}
-                  className="absolute inset-0 w-full h-full cursor-pointer"
-                  onClick={openLightbox}
-                >
-                  {currentItem.type === 'video' ? (
-                    <video
-                      src={currentItem.image}
-                      poster={currentItem.poster}
-                      className="w-full h-full object-contain bg-black"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                  ) : (
-                    <Image
-                      src={currentItem.image}
-                      alt={currentItem.title}
-                      fill
-                      className="object-contain p-4 bg-zinc-900/20"
-                      priority
-                    />
-                  )}
-                  
-                  {/* Overlay Gradient for Text Readability */}
-                  <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
-                </motion.div>
-              </AnimatePresence>
+              {/* Media Wrapper */}
+              <div className="relative w-full aspect-video md:absolute md:inset-0 md:h-full md:w-full">
+                {/* Main Content Animation */}
+                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                  <motion.div
+                    key={currentIndex}
+                    custom={direction}
+                    variants={variants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 }
+                    }}
+                    className="absolute inset-0 w-full h-full cursor-pointer"
+                    onClick={openLightbox}
+                  >
+                    {currentItem.type === 'video' ? (
+                      <video
+                        src={currentItem.image}
+                        poster={currentItem.poster}
+                        className="w-full h-full object-contain bg-black"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                      />
+                    ) : (
+                      <Image
+                        src={currentItem.image}
+                        alt={currentItem.title}
+                        fill
+                        className="object-contain p-4 bg-zinc-900/20"
+                        priority
+                      />
+                    )}
+                    
+                    {/* Overlay Gradient - Desktop Only */}
+                    <div className="hidden md:block absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
+                  </motion.div>
+                </AnimatePresence>
 
-              {/* Navigation Arrows */}
-              <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#D4AF37] hover:text-black hover:border-[#D4AF37] transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
-                onClick={(e) => { e.stopPropagation(); paginate(-1); }}
-                aria-label="Previous slide"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-              </button>
-              
-              <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#D4AF37] hover:text-black hover:border-[#D4AF37] transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
-                onClick={(e) => { e.stopPropagation(); paginate(1); }}
-                aria-label="Next slide"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </button>
+                {/* Navigation Arrows - Larger touch targets for mobile (min 48px) */}
+                <button
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#D4AF37] hover:text-black hover:border-[#D4AF37] transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 focus:opacity-100 active:scale-95"
+                  onClick={(e) => { e.stopPropagation(); haptics.tap(); paginate(-1); }}
+                  aria-label="Previous slide"
+                >
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                </button>
+                
+                <button
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#D4AF37] hover:text-black hover:border-[#D4AF37] transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 focus:opacity-100 active:scale-95"
+                  onClick={(e) => { e.stopPropagation(); haptics.tap(); paginate(1); }}
+                  aria-label="Next slide"
+                >
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </button>
+                
+                {/* Swipe Hint for Mobile Users */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 sm:hidden pointer-events-none animate-pulse">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/20">
+                    <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                    </svg>
+                    <span className="text-xs text-white/60 font-medium">Swipe</span>
+                    <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
 
               {/* Information Bar */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 z-20 flex flex-col md:flex-row justify-between items-end gap-4 pointer-events-none">
-                <div className="text-left pointer-events-auto">
+              <div className="relative md:absolute md:bottom-0 left-0 right-0 p-6 md:p-8 z-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-4 bg-zinc-900 md:bg-transparent border-t border-white/10 md:border-t-0 pointer-events-none">
+                <div className="text-left pointer-events-auto w-full md:w-auto">
                    <div className="flex items-center gap-3 mb-2">
                       <span className="px-2 py-1 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider">
                         {currentItem.category}
@@ -194,13 +225,14 @@ export default function ProcessGallery() {
                    </p>
                 </div>
 
-                {/* Slideshow Button */}
+                {/* Slideshow Button - Optimized for mobile touch */}
                 <button
-                  onClick={(e) => { e.stopPropagation(); openLightbox(); }}
-                  className="pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full bg-[#D4AF37] text-black font-bold text-sm tracking-wide hover:bg-white hover:scale-105 transition-all shadow-lg shadow-[#D4AF37]/20"
+                  onClick={(e) => { e.stopPropagation(); haptics.buttonPress(); openLightbox(); }}
+                  className="pointer-events-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 rounded-full bg-[#D4AF37] text-black font-bold text-xs sm:text-sm tracking-wide hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#D4AF37]/20 min-h-[48px] w-full md:w-auto"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
-                  OPEN SLIDESHOW
+                  <span className="hidden sm:inline">OPEN SLIDESHOW</span>
+                  <span className="sm:hidden">FULLSCREEN</span>
                 </button>
               </div>
 

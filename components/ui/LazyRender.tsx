@@ -23,6 +23,12 @@ export default function LazyRender({
   useEffect(() => {
     if (isVisible) return;
 
+    // Fallback timer: Force render after 4s in case IntersectionObserver fails
+    // or if the user scrolls very fast and the browser misses the event.
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 4000);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -42,6 +48,7 @@ export default function LazyRender({
 
     return () => {
       observer.disconnect();
+      clearTimeout(timer);
     };
   }, [isVisible, threshold, rootMargin]);
 

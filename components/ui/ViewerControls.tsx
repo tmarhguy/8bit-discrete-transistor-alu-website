@@ -8,6 +8,8 @@ interface ViewerControlsProps {
   onToggleGrid: () => void;
   showStats: boolean;
   onToggleStats: () => void;
+  isPlaying: boolean;
+  onTogglePlay: () => void;
 }
 
 export default function ViewerControls({
@@ -16,6 +18,8 @@ export default function ViewerControls({
   onToggleGrid,
   showStats,
   onToggleStats,
+  isPlaying,
+  onTogglePlay,
 }: ViewerControlsProps) {
   return (
     <motion.div
@@ -25,13 +29,29 @@ export default function ViewerControls({
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass glass-border rounded-lg p-4"
     >
       <div className="flex items-center gap-4">
+        {/* Play/Pause Rotation */}
+        <button
+          onClick={onTogglePlay}
+          className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+            isPlaying
+              ? 'bg-accent/20 text-accent hover:bg-accent/30'
+              : 'bg-white/10 text-foreground hover:bg-white/20'
+          }`}
+          title="Toggle Rotation (Space)"
+        >
+          {isPlaying ? 'Pause' : 'Play'}
+        </button>
+
+        {/* Divider */}
+        <div className="w-px h-6 bg-white/20" />
+
         {/* Reset Camera */}
         <button
           onClick={onResetCamera}
           className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-foreground transition-colors text-sm font-medium"
           title="Reset Camera (R)"
         >
-          Reset Camera
+          Reset
         </button>
 
         {/* Divider */}
@@ -63,12 +83,7 @@ export default function ViewerControls({
           Stats {showStats ? 'On' : 'Off'}
         </button>
 
-        {/* Instructions */}
-        <div className="ml-4 text-xs text-muted-foreground hidden md:block">
-          <span className="font-mono">Left Click</span> Rotate •{' '}
-          <span className="font-mono">Right Click</span> Pan •{' '}
-          <span className="font-mono">Scroll</span> Zoom
-        </div>
+
       </div>
     </motion.div>
   );

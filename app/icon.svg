@@ -1,0 +1,43 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FDB931;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="#000000"/>
+  
+  <!-- Chip Body -->
+  <rect x="146" y="146" width="220" height="220" rx="30" fill="none" stroke="url(#gold-gradient)" stroke-width="24"/>
+  
+  <!-- Pins (Top) -->
+  <path d="M196 146V80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M256 146V80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M316 146V80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  
+  <!-- Pins (Bottom) -->
+  <path d="M196 366V432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M256 366V432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M316 366V432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- Pins (Left) -->
+  <path d="M146 196H80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M146 256H80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M146 316H80" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- Pins (Right) -->
+  <path d="M366 196H432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M366 256H432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M366 316H432" stroke="url(#gold-gradient)" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- Center Detail -->
+  <rect x="226" y="226" width="60" height="60" rx="10" fill="url(#gold-gradient)"/>
+  <circle cx="200" cy="200" r="8" fill="url(#gold-gradient)"/>
+  <circle cx="312" cy="200" r="8" fill="url(#gold-gradient)"/>
+  <circle cx="200" cy="312" r="8" fill="url(#gold-gradient)"/>
+  <circle cx="312" cy="312" r="8" fill="url(#gold-gradient)"/>
+
+</svg>

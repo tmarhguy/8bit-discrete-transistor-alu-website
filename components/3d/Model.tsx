@@ -81,12 +81,17 @@ export default function Model({ path, position, isSelected, onClick, isVisible }
                    m.metalness = 0.0;        
                    m.envMapIntensity = 0.5;  
                }
-               // 2. CRISP WHITE (Silkscreen)
+                // 2. CRISP WHITE (Silkscreen)
                else if (h.l > 0.8 && h.s < 0.2) {
                    m.color.setHex(0xFFFFFF); 
                    m.roughness = 1.0;
                    m.metalness = 0.0;
-                   m.emissive.setHex(0x666666);
+                   // FIX: Prevent Z-fighting/Disappearing text on PCB
+                   m.polygonOffset = true;
+                   m.polygonOffsetFactor = -1; // Pull towards camera
+                   
+                   // FIX: Force render ON TOP of the PCB (fixes "disappearing at angles" transparency sorting)
+                   mesh.renderOrder = 1; 
                }
                // 3. VIBRANT RED (LEDs)
                // Hue 0-0.05 (Red) or 0.95-1.0 (Red)

@@ -68,6 +68,8 @@ export default function Scene({ selectedModel, onModelSelect }: SceneProps) {
         maxPolarAngle={Math.PI / 2}
         enableDamping
         dampingFactor={0.05}
+        rotateSpeed={-1.0}
+        panSpeed={-1.0}
       />
     </Canvas>
   );
