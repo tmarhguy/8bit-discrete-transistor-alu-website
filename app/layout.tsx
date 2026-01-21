@@ -61,8 +61,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        // Hero system photo used as the primary Open Graph preview image
-        url: 'https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png',
+        // Optimized 1200x630 OG image
+        url: 'https://alu.tmarhguy.com/media/images/opengraph-default.png',
+        width: 1200,
         height: 630,
         alt: 'Physical 8-Bit Discrete Transistor ALU',
         type: 'image/png',
@@ -73,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "3,488 transistors. One 8-bit ALU. Explore the engineering behind a hand-built computer component by Tyrone Marhguy.",
-    images: ['https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png'],
+    images: ['https://alu.tmarhguy.com/media/images/opengraph-default.png'],
     creator: '@tmarhguy', // Verification if user has twitter
   },
 };
