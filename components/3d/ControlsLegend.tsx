@@ -110,7 +110,7 @@ export default function ControlsLegend() {
                      <KeyShortcut keyLabel="2" description="Iso" />
                      <KeyShortcut keyLabel="3" description="Side" />
                      <KeyShortcut keyLabel="SPACE" description="Auto-Spin" />
-                     <KeyShortcut keyLabel="F" description="Reset" />
+                     <KeyShortcut keyLabel="R" description="Reset" />
                   </div>
                 </div>
               )}

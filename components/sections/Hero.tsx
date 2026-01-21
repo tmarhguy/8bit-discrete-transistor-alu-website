@@ -39,13 +39,12 @@ export default function Hero() {
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-center bg-no-repeat bg-[radial-gradient(circle_farthest-corner,rgba(212,175,55,0.08)_0%,transparent_70%)] blur-[60px]" />
            
             <Image
-              src="https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/pcb/renders/alu_slant.png"
+              src="/media/images/pcb/renders/alu_slant.png"
               alt="8-Bit Transistor ALU"
               fill
               className="object-contain object-center drop-shadow-[0_-20px_60px_rgba(212,175,55,0.1)]"
               priority
               quality={90}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw"
             />
         </motion.div>
       </motion.div>

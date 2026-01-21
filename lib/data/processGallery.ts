@@ -267,12 +267,12 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Complete 8-bit ALU simulation running all opcodes',
-    poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_evolution_full.png',
+    poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.png',
   },
   {
     id: 'logisim-layout',
     title: 'ALU Layout (Logisim)',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_alu_layout.png',
+    image: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
     type: 'image',
     category: 'verification',
     description: 'System layout in Logisim',
@@ -284,7 +284,7 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Logic unit verification and FPGA export test',
-    poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_alu_layout.png',
+    poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
   },
   // NGSpice
   {

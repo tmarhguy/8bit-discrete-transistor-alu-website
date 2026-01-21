@@ -63,6 +63,24 @@ export default function Model({ path, position, isSelected, onClick, isVisible }
            mesh.material = material.clone();
            const m = mesh.material as THREE.MeshStandardMaterial;
 
+           // FIX: Reduce Graininess / Texture Aliasing
+           // Apply high-quality texture filtering to all maps
+           const applyTextureFiltering = (texture: THREE.Texture | null) => {
+             if (texture) {
+               texture.minFilter = THREE.LinearMipMapLinearFilter;
+               texture.magFilter = THREE.LinearFilter;
+               texture.anisotropy = 16; // Max anisotropic filtering
+               texture.needsUpdate = true;
+             }
+           };
+
+           applyTextureFiltering(m.map);
+           applyTextureFiltering(m.normalMap);
+           applyTextureFiltering(m.roughnessMap);
+           applyTextureFiltering(m.metalnessMap);
+           applyTextureFiltering(m.aoMap);
+           applyTextureFiltering(m.emissiveMap);
+
            // IS THIS THE PCB BODY?
            if (mesh === pcbMesh) {
                // VISUAL: PREMIUM EMERALD GREEN FR4

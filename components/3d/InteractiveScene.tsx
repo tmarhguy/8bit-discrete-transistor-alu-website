@@ -90,10 +90,15 @@ export default function InteractiveScene({
         shadows={tier !== 'low'}
         camera={{ position: [10, 15, 10], fov: 45 }} 
         gl={{ 
-          antialias: tier !== 'low', 
+          antialias: true, // Enable for all tiers - critical for reducing graininess
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 0.8,
           powerPreference: tier === 'low' ? 'low-power' : 'high-performance',
+          logarithmicDepthBuffer: true, // Prevents z-fighting and improves depth precision
+        }}
+        onCreated={({ gl }) => {
+          // Set max anisotropy for the renderer
+          gl.capabilities.getMaxAnisotropy();
         }}
         className="bg-[#050505]"
         style={{ width: '100%', height: '100%' }}

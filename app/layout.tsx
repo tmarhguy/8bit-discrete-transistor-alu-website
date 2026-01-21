@@ -61,11 +61,10 @@ export const metadata: Metadata = {
     images: [
       {
         // Hero system photo used as the primary Open Graph preview image
-        url: 'https://res.cloudinary.com/du4kxtjpw/image/upload/w_1200,h_630,c_pad,b_black,q_auto,f_jpg/alu-website/pcb/renders/alu_slant.jpg',
-        width: 1200,
+        url: 'https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png',
         height: 630,
         alt: 'Physical 8-Bit Discrete Transistor ALU',
-        type: 'image/jpeg',
+        type: 'image/png',
       },
     ],
   },
@@ -73,7 +72,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "3,488 transistors. One 8-bit ALU. Explore the engineering behind a hand-built computer component by Tyrone Marhguy.",
-    images: ['https://res.cloudinary.com/du4kxtjpw/image/upload/w_1200,h_630,c_pad,b_black,q_auto,f_jpg/alu-website/pcb/renders/alu_slant.jpg'],
+    images: ['https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png'],
     creator: '@tmarhguy', // Verification if user has twitter
   },
 };
@@ -96,8 +95,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         
         {/* Critical Resource Hints for Performance */}
-        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
@@ -106,7 +104,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="8-Bit ALU" />
-        <link rel="apple-touch-icon" href="/media/hero/hero_system_photo.png" />
+        <link rel="apple-touch-icon" href="/media/images/pcb/renders/alu_slant.png" />
         
         {/* Mobile Optimization */}
         <meta name="format-detection" content="telephone=no" />

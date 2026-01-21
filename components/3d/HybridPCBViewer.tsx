@@ -102,33 +102,13 @@ export default function HybridPCBViewer({ initialMode = '2D_EXPLODED' }: HybridP
         </button>
       </div>
 
-      {/* Mobile Touch Hints Overlay */}
-      <AnimatePresence>
-        {showTouchHints && mode === '3D_ASSEMBLED' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
-          >
-            <div className="flex items-center gap-3 px-4 py-2.5 bg-black/70 backdrop-blur-md rounded-full border border-white/20 shadow-xl">
-              <span className="text-xs text-white/90 font-medium font-sans">1-Finger Rotate</span>
-              <span className="text-white/20">•</span>
-              <span className="text-xs text-white/90 font-medium font-sans">Hold + Drag Pan</span>
-              <span className="text-white/20">•</span>
-              <span className="text-xs text-white/90 font-medium font-sans">Pinch Zoom</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Authenticity Badge */}
-      <div className="absolute bottom-6 right-6 z-30 pointer-events-none opacity-60 hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-6 right-6 z-30 pointer-events-none opacity-80 hover:opacity-100 transition-opacity">
         <div className="flex flex-col items-end">
-             <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] text-zinc-400 border border-white/5 shadow-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/80 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                <span className="font-mono tracking-wider font-semibold">PHYSICALLY ACCURATE</span>
+             <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)] animate-pulse"></div>
+                <span className="font-mono tracking-wider font-semibold text-amber-100/90 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]">REAL PCB MODEL</span>
              </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default function Hardware() {
   const techStack = [
     {
       category: 'Design & Simulation',
-      items: ['Logisim Evolution', 'LTSpice', 'KiCad 7.0']
+      items: ['Logisim Evolution', 'LTSpice', 'KiCad 9.0']
     },
     {
       category: 'Hardware',

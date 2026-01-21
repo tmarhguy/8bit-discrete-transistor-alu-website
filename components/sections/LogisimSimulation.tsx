@@ -16,16 +16,16 @@ export default function LogisimSimulation() {
 
   const simulationVideos = [
     {
-      src: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/simulations/logisim/schematics_draw_demo',
+      src: '/media/videos/simulations/schematics_draw_demo.mp4',
       title: 'Schematic Entry Process',
       description: 'Designing the ALU schematics in the EDA tool. This demonstration captures the detailed process of creating the circuit diagrams.',
-      poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_evolution_full.png',
+      poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.png',
     },
     {
-      src: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_counter_running',
+      src: '/media/videos/simulations/sim_logisim_counter_running.mp4',
       title: 'Logisim ALU Simulation',
       description: 'Counter-driven test sequence cycling through all 19 operations with visual output verification',
-      poster: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_alu_layout.png',
+      poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
     },
   ];
 

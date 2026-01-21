@@ -26,13 +26,14 @@ This platform bridges the gap between hardware and software, offering a high-per
 
 To deliver a cinematic experience (4K video, high-fidelity 3D models) without compromising web performance (Lighthouse 97/100), we engineered a custom asset pipeline associated with this repo.
 
-### 1. Cloudinary Asset Cloud & Batch Processing
+### 1. Self-Hosted Asset Management
 
-We do not host heavy assets in the Git repository. Instead, we utilize a **batch-processing pipeline** to manage media:
+All media assets are version-controlled and self-hosted for complete independence:
 
-* **Batch Upload Scripts**: Custom Node.js scripts (`scripts/upload-new-videos.js`) automate the ingestion of raw footage.
-* **Auto-Optimization**: Assets are programmatically tagged and transformed. 4K ProRes footage is automatically transcoded to efficiently streamed `webm`/`mp4` formats with adaptive bitrates.
-* **Bandwidth Savings**: Offloading assets reduces the initial bundle size by ~90% and allows for edge-caching of media.
+* **Local Storage**: Images and videos are stored in `/public/media/` for zero external dependencies.
+* **Next.js Optimization**: Automatic WebP/AVIF conversion, responsive sizing, and quality optimization handled by Next.js Image component.
+* **CDN Distribution**: Assets are automatically cached and distributed via Vercel's global edge network.
+* **Performance**: Eliminates external API latency while maintaining sub-second load times globally.
 
 ### 2. The 3D Optimization Workflow
 
@@ -81,15 +82,7 @@ To run this documentation suite locally:
     npm install
     ```
 
-3.  **Environment Setup**
-    Create a `.env.local` file with your Cloudinary credentials (required for media fetching):
-    ```env
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-    CLOUDINARY_API_KEY=your_key
-    CLOUDINARY_API_SECRET=your_secret
-    ```
-
-4.  **Run Development Server**
+3.  **Run Development Server**
     ```bash
     npm run dev
     ```

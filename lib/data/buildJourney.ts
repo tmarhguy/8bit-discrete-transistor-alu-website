@@ -16,8 +16,8 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'mosfet-design',
     title: 'MOSFET Design',
     description: 'Custom logic gates designed from transistor level using Electric VLSI',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/process/timeline/process_timeline_01_mosfet_design.jpg',
-    video: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/design/kicad/schematics_design_video_full.mp4',
+    image: '/media/images/process/timeline/process_timeline_01_mosfet_design.jpg',
+    video: '/media/videos/design/schematics_design_video_full.mp4',
     detailImages: [
 
       '/media/design/vlsi/design_electric_half_adder_video.mp4',
@@ -38,8 +38,8 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'schematic-design',
     title: 'Schematic Design',
     description: 'Complete circuit schematics created in KiCad',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/process/timeline/process_timeline_02_schematic.webp',
-    video: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/design/kicad/schematics_design_video_full.mp4',
+    image: '/media/images/process/timeline/process_timeline_02_schematic.webp',
+    video: '/media/videos/design/schematics_design_video_full.mp4',
     detailImages: [
 
       '/media/design/kicad/main_logic_page-0001.webp',
@@ -55,7 +55,7 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'simulation',
     title: 'Simulation',
     description: 'Circuit behavior verified using NGSpice and Logisim simulations',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/simulations/logisim/sim_logisim_evolution_full.png',
+    image: '/media/images/simulations/logisim/sim_logisim_evolution_full.png',
     video: '/media/simulations/logisim/main-demo-logism-evolution-all-opcodes.mp4',
     detailImages: [
       '/media/simulations/logisim/logic_unit_sim_logism_evolution_fpga_export.mp4',
@@ -81,8 +81,8 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'verification',
     title: 'Universal Verification',
     description: 'Exhaustive verification of 1.2M+ test vectors',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/verification/test_passed.png',
-    video: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/verification/testing_demo.mp4',
+    image: '/media/images/verification/test_passed.png',
+    video: '/media/videos/verification/testing_demo.mp4',
     content: 'Before committing to hardware, developed a custom "Golden Model" in Python to exhaustively verify the ALU logic. \n\n**The Challenge:** Prove correctness for 100% of inputs.\n\n**The Solution:**\n- Generated **1,245,184 unique test vectors** (256 Inputs A × 256 Inputs B × 19 Opcodes).\n- Wrote a zero-dependency Python test runner (`run_tests.py`) to simulate 100% of the ISA.\n- Validated every single arithmetic, logic, and shift operation, including all edge cases (Overflow, Carry, Borrow).\n\nThe result: **0 Failures.** The logic is mathematically perfect.',
     tools: ['Python', 'Bash', 'Automated Testing', 'Golden Model'],
     duration: '1 week',
@@ -92,8 +92,8 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'inverter-learning',
     title: 'Custom Inverter Test',
     description: 'Learning PCB fabrication workflow with SOT-23-3 inverter project',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/fabrication/inverter/not_closeup_soldered_mosfets.webp',
-    video: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/fabrication/inverter/main_demo_inverter.mp4',
+    image: '/media/images/fabrication/inverter/not_closeup_soldered_mosfets.webp',
+    video: '/media/videos/fabrication/main_demo_inverter.mp4',
     detailImages: [
       '/media/fabrication/inverter/not_schematics.png',
       '/media/fabrication/inverter/not_pcb_view.png',
@@ -109,11 +109,11 @@ export const buildJourneyStages: BuildJourneyStage[] = [
     id: 'pcb-design',
     title: 'PCB Design',
     description: 'Professional PCB layouts with optimized routing - Ready for fabrication',
-    image: 'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/process/timeline/process_timeline_04_pcb_design.png',
-    video: 'https://res.cloudinary.com/du4kxtjpw/video/upload/q_auto,f_auto/alu-website/design/kicad/routing-demo.mp4',
+    image: '/media/images/process/timeline/process_timeline_04_pcb_design.png',
+    video: '/media/videos/design/routing-demo.mp4',
     detailImages: [
       '/media/design/kicad/nand_gate_full_flow.mp4',
-      'https://res.cloudinary.com/du4kxtjpw/image/upload/q_auto,f_auto/alu-website/design/kicad/main_logic.png',
+      '/media/images/design/kicad/main_logic.png',
       '/media/design/kicad/design_kicad_alu_schematic.webp',
       '/media/design/kicad/unrouted_full_alu_monolithic.png',
     ],

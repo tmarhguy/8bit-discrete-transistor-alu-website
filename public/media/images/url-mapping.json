@@ -1,0 +1,13 @@
+{
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/pcb/renders/alu_slant.png": "/media/cloudinary/pcb/renders/alu_slant.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/hero/hero_system_photo.png": "/media/cloudinary/hero/hero_system_photo.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/process/timeline/process_timeline_01_mosfet_design.jpg": "/media/cloudinary/process/timeline/process_timeline_01_mosfet_design.jpg",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/process/timeline/process_timeline_02_schematic.webp": "/media/cloudinary/process/timeline/process_timeline_02_schematic.webp",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/process/timeline/process_timeline_04_pcb_design.png": "/media/cloudinary/process/timeline/process_timeline_04_pcb_design.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/simulations/logisim/sim_logisim_evolution_full.png": "/media/cloudinary/simulations/logisim/sim_logisim_evolution_full.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/simulations/logisim/sim_logisim_alu_layout.png": "/media/cloudinary/simulations/logisim/sim_logisim_alu_layout.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/verification/test_passed.png": "/media/cloudinary/verification/test_passed.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/fabrication/inverter/not_closeup_soldered_mosfets.webp": "/media/cloudinary/fabrication/inverter/not_closeup_soldered_mosfets.webp",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/design/kicad/main_logic.png": "/media/cloudinary/design/kicad/main_logic.png",
+  "https://res.cloudinary.com/du4kxtjpw/image/upload/alu-website/design/kicad/nand_gate_poster.png": "/media/cloudinary/design/kicad/nand_gate_poster.png"
+}

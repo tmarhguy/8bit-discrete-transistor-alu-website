@@ -337,11 +337,11 @@ export default function SceneControls({
         case '3': // Side/Stack View
           controls.setLookAt(30, 0, 0, 0, 0, 0, true);
           break;
-        case 'f': // Reset Camera (Default)
+        case 'r': // Reset Camera
           controls.setLookAt(10, 15, 10, 0, 0, 0, true);
           break;
         case ' ': // Toggle Rotate (Space)
-        case 'r': // Keep R as legacy/alternate
+        case 'f': // Toggle Rotate (F)
              if (onAutoRotateChange) onAutoRotateChange(!autoRotate);
              break;
         case 'arrowleft':
