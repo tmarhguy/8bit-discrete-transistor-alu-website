@@ -16,22 +16,22 @@ export default function TestingStrategy() {
         {
           operation: 'ADD',
           testCases: [
-            '0 + 0 = 0 (Z flag)',
-            '255 + 1 = 0 (C flag, overflow)',
-            '127 + 1 = 128 (N flag, sign change)',
-            '42 + 23 = 65 (normal)',
+            '0 + 0 = 0 (Equal flag)',
+            '255 + 1 = 0 (Carry flag, overflow)',
+            '127 + 1 = 128 (Greater flag, signed boundary)',
+            '42 + 23 = 65 (normal result)',
           ],
-          validation: 'Verify result and all flags (C, Z, N)',
+          validation: 'Verify result and all flags (C, E, L, G)',
         },
         {
           operation: 'SUB',
           testCases: [
-            '5 - 5 = 0 (Z flag)',
-            '0 - 1 = 255 (C flag, borrow)',
-            '128 - 1 = 127 (N flag clear)',
+            '5 - 5 = 0 (Equal flag)',
+            '0 - 1 = 255 (Carry flag, borrow)',
+            '128 - 1 = 127 (Less flag update)',
             '100 - 42 = 58 (normal)',
           ],
-          validation: 'Verify result and borrow/zero/negative flags',
+          validation: 'Verify result and the borrow/compare flags (C, E, L, G)',
         },
       ],
     },
@@ -46,12 +46,12 @@ export default function TestingStrategy() {
             '0xAA & 0x55 = 0x00',
             '0xF0 & 0x0F = 0x00',
           ],
-          validation: 'Verify bitwise AND, check Z flag',
+          validation: 'Verify bitwise AND, check Equal flag (E)',
         },
         {
           operation: 'XOR',
           testCases: [
-            '0xFF ^ 0xFF = 0x00 (Z flag)',
+            '0xFF ^ 0xFF = 0x00 (Equal flag)',
             '0xAA ^ 0x55 = 0xFF',
             '0x0F ^ 0xF0 = 0xFF',
           ],
@@ -60,10 +60,10 @@ export default function TestingStrategy() {
       ],
     },
     shift: {
-      name: 'Shift & Rotate',
+      name: 'Shift & Special',
       tests: [
         {
-          operation: 'SHL (Shift Left)',
+          operation: 'LSL (Logical Shift Left)',
           testCases: [
             '0x01 << 1 = 0x02',
             '0x80 << 1 = 0x00 (C flag)',
@@ -72,12 +72,30 @@ export default function TestingStrategy() {
           validation: 'Verify shift, check carry from MSB',
         },
         {
-          operation: 'ROL (Rotate Left)',
+          operation: 'LSR (Logical Shift Right)',
           testCases: [
-            '0x81 ROL = 0x03 (with carry)',
-            '0x80 ROL = 0x01 (C flag)',
+            '0x02 >> 1 = 0x01',
+            '0x01 >> 1 = 0x00 (C flag)',
+            '0x80 >> 4 = 0x08',
           ],
-          validation: 'Verify rotation includes carry bit',
+          validation: 'Verify logical right shift and carry output',
+        },
+        {
+          operation: 'ASR (Arithmetic Shift Right)',
+          testCases: [
+            '0x80 >> 1 = 0xC0 (sign extend)',
+            '0xFF >> 1 = 0xFF',
+            '0x7F >> 1 = 0x3F',
+          ],
+          validation: 'Validate sign extension and carry interaction',
+        },
+        {
+          operation: 'REV (Reverse Bits)',
+          testCases: [
+            '0xF0 REV = 0x0F',
+            '0x80 REV = 0x01',
+          ],
+          validation: 'Verify bit reversal operation',
         },
       ],
     },
@@ -105,7 +123,7 @@ export default function TestingStrategy() {
     {
       phase: '4. Integration Testing',
       description: 'Test operation sequences and flag interactions',
-      tools: ['Arduino Test Harness', 'Serial Monitor'],
+      tools: ['Serial Monitor'],
       approach: 'Automated test sequences, log results',
     },
   ];
@@ -132,7 +150,10 @@ export default function TestingStrategy() {
               Testing Strategy
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              To ensure rigor, I tested on all possibilities there were for an 8-bit ALU on 19 opcodes (256 x 256 x 19)—yes, 1.245 million test cases.
+              To ensure rigor, I tested all input combinations for an 8-bit ALU across 19 opcodes (256 × 256 × 19)—1.245 million test cases in simulation.
+            </p>
+            <p className="text-sm text-muted-foreground max-w-3xl mx-auto mt-4">
+              The vector generator is open in the hardware repo: see <a className="text-accent underline" href="https://github.com/tmarhguy/8bit-discrete-transistor-alu/blob/main/run_tests.py" target="_blank" rel="noreferrer">run_tests.py</a>, which logs test results and validates design correctness.
             </p>
           </div>
         </FadeUp>

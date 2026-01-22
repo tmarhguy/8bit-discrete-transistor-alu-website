@@ -12,17 +12,17 @@ cloudinary.config({
 // Image upload configuration - High-priority images
 const imagesToUpload = [
   // Hero & Posters
-  { local: 'public/media/hero/hero_system_photo.png', folder: 'alu-website/hero' },
-  { local: 'public/media/simulations/logisim/sim_logisim_alu_layout.png', folder: 'alu-website/simulations/logisim' },
-  { local: 'public/media/process/timeline/process_timeline_01_mosfet_design.jpg', folder: 'alu-website/process/timeline' },
+  { local: 'public/media/hero/hero_system_photo.webp', folder: 'alu-website/hero' },
+  { local: 'public/media/simulations/logisim/sim_logisim_alu_layout.webp', folder: 'alu-website/simulations/logisim' },
+  { local: 'public/media/process/timeline/process_timeline_01_mosfet_design.webp', folder: 'alu-website/process/timeline' },
   { local: 'public/media/fabrication/inverter/not_closeup_soldered_mosfets.webp', folder: 'alu-website/fabrication/inverter' },
-  { local: 'public/media/design/kicad/nand_gate_poster.png', folder: 'alu-website/design/kicad' },
-  { local: 'public/media/design/kicad/main_logic.png', folder: 'alu-website/design/kicad' },
+  { local: 'public/media/design/kicad/nand_gate_poster.webp', folder: 'alu-website/design/kicad' },
+  { local: 'public/media/design/kicad/main_logic.webp', folder: 'alu-website/design/kicad' },
   // Timeline Images
   { local: 'public/media/process/timeline/process_timeline_02_schematic.webp', folder: 'alu-website/process/timeline' },
-  { local: 'public/media/simulations/logisim/sim_logisim_evolution_full.png', folder: 'alu-website/simulations/logisim' },
-  { local: 'public/media/verification/test_passed.png', folder: 'alu-website/verification' },
-  { local: 'public/media/process/timeline/process_timeline_04_pcb_design.png', folder: 'alu-website/process/timeline' },
+  { local: 'public/media/simulations/logisim/sim_logisim_evolution_full.webp', folder: 'alu-website/simulations/logisim' },
+  { local: 'public/media/verification/test_passed.webp', folder: 'alu-website/verification' },
+  { local: 'public/media/process/timeline/process_timeline_04_pcb_design.webp', folder: 'alu-website/process/timeline' },
 ];
 
 async function uploadImage(filePath, folder) {

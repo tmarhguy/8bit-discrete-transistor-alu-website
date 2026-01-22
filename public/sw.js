@@ -119,7 +119,7 @@ self.addEventListener('push', (event) => {
   const title = data.title || '8-Bit ALU Update';
   const options = {
     body: data.body || 'Check out new content!',
-    icon: '/media/hero/hero_system_photo.png',
+    icon: '/media/images/hero/hero_system_photo.png',
     badge: '/favicon.ico',
     vibrate: [200, 100, 200],
     tag: 'alu-notification',

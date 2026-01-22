@@ -14,7 +14,26 @@
 
 ## The Core Project: Hardware First
 
-**Important Context**: This repository is the *software companion* to a massive hardware engineering undertaking. It is not a standalone web experiment; it is the **Digital Twin** for a physical CPU I built from scratch using **3,488 individual transistors**.
+**Important Context**: This repository is the *software companion* to a massive hardware engineering undertaking. It is not a standalone web experiment; it is the **Digital Twin** for a physical CPU I built from scratch using **3,488 transistors (hybrid discrete/IC)**.
+
+> **⚠️ Hybrid Design Architecture:**
+> 
+> **Current Implementation (v1.0):**
+> - **Total Transistors:** 3,488 (624 discrete + 2,864 in ICs)
+> - **Discrete MOSFETs:** 624 transistors hand-wired on custom PCBs (inverters, NAND, NOR, XOR gates)
+> - **74HC Logic ICs:** 46 chips containing 2,864 transistors (74HC157 multiplexers, 74HC86 XOR gates)
+> 
+> **Rationale for Hybrid Approach:**
+> The 74xx ICs serve as *architectural placeholders* to validate the complete ALU design while keeping the initial build manageable. The discrete MOSFET sections demonstrate the core principle: building logic from individual transistors.
+> 
+> **Future Migration Path (v2.0):**
+> Planned replacement of 74HC multiplexers and XOR gates with optimized discrete MOSFET implementations. This will involve:
+> - Designing space-efficient discrete 4:1 multiplexer circuits
+> - Creating optimized XOR topologies using complementary MOSFET pairs
+> - Expanding PCB real estate to accommodate ~2,800 additional discrete components
+> - Maintaining pin-compatible interfaces for drop-in replacement
+> 
+> **Educational Value:** The current design showcases systematic verification methodology, custom PCB fabrication, and the fundamental principles of transistor-level logic design—independent of whether every transistor is individually placed.
 
 While the [main hardware repository](https://github.com/tmarhguy/8bit-discrete-transistor-alu) documents the electrical engineering—KiCad schematics, SPICE simulations, and Verilog verification—this project solves a different problem: **How do you showcase a complex physical machine to a global audience?**
 
@@ -22,9 +41,27 @@ This platform bridges the gap between hardware and software, offering a high-per
 
 ---
 
+## Performance Metrics
+
+This platform achieves exceptional web performance scores while delivering a rich, interactive 3D experience:
+
+### Lighthouse Scores
+
+| Platform | Performance | Accessibility | Best Practices | SEO |
+|----------|-------------|---------------|----------------|-----|
+| **Desktop** | 100 | 100 | 96 | 100 |
+| **Mobile** | 95 | 100 | 95 | 100 |
+
+*Scores validated via Chrome DevTools Lighthouse. Machine-readable reports available on request.*
+
+<div align="center">
+  <img src="public/media/readme/lighthouse_desktop_100.png" alt="Desktop Lighthouse Score - 100" width="48%">
+  <img src="public/media/readme/lighthouse_mobile_95.png" alt="Mobile Lighthouse Score - 95" width="48%">
+</div>
+
 ## System Architecture & Asset Pipeline
 
-To deliver a cinematic experience (4K video, high-fidelity 3D models) without compromising web performance (Lighthouse 97/100), we engineered a custom asset pipeline associated with this repo.
+To deliver a cinematic experience (4K video, high-fidelity 3D models) while maintaining these exceptional performance scores, we engineered a custom asset pipeline associated with this repo.
 
 ### 1. Self-Hosted Asset Management
 
@@ -62,10 +99,11 @@ The centerpiece "Digital Twin" is a 1:1 render of the physical PCB. Rendering 3,
 
 * **RSC (React Server Components)**: We move as much logic to the server as possible, keeping the client bundle lean.
 * **Dynamic Imports**: Heavy components (like the 3D Viewer) are lazy-loaded to prioritize First Contentful Paint (FCP).
-
-![Lighthouse Score](public/media/readme/lighthouse-97.png)
+* **Optimized Lazy Loading**: Robust lazy loading implementation ensures smooth initial page loads by deferring below-fold content.
 
 ![Project Metrics](public/media/readme/metrics.png)
+
+The **Build Journey** section enumerates each stage—from MOSFET design through PCB layout, simulation, and fabrication—and those stages span roughly 10 weeks, keeping the timeline aligned with the documented process.
 
 ## Local Development
 
@@ -91,8 +129,9 @@ To run this documentation suite locally:
 ## Verification
 
 This project runs a strict CI/CD pipeline:
-* **Lighthouse CI**: Enforces performance budgets (Performance > 90).
+* **Lighthouse CI**: Enforces performance budgets (Performance > 95 mobile, 100 desktop).
 * **Type Check**: `tsc --noEmit` runs on every commit.
+* **Golden Model Runner**: The [run_tests.py](https://github.com/tmarhguy/8bit-discrete-transistor-alu/blob/main/run_tests.sh) script in the hardware repo generates the 1,245,184 exhaustive test vectors referenced above and logs every pass.
 
 ## Related Resources
 

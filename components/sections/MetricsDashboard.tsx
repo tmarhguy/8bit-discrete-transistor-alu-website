@@ -39,9 +39,9 @@ export default function MetricsDashboard() {
       animateValue: false,
     },
     {
-      value: '12',
+      value: '10',
       label: 'Weeks',
-      description: 'Development time',
+      description: 'Design & verification span (~10 weeks)',
       suffix: '',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,6 +107,10 @@ export default function MetricsDashboard() {
             </div>
           </div>
         </FadeUp>
+
+        <p className="mt-6 text-xs text-center text-muted-foreground">
+          The <a className="text-accent underline" href="#build-journey">Build Journey</a> section breaks the work into MOSFET design, schematics, PCB layout, and fabrication stages that together span about 10 weeks.
+        </p>
       </div>
     </section>
   );

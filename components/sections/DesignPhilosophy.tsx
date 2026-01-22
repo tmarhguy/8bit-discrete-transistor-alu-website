@@ -8,11 +8,11 @@ export default function DesignPhilosophy() {
   const designDecisions = [
     {
       title: 'The Pursuit of Verifiability',
-      rationale: 'Initial designs relied on 74xx ICs to tame propagation delay and cost. But to depend on "black boxes" is to accept a hidden complexity. I chose to expose the 2,864 transistors within them, replacing abstraction with discrete MOSFETs. It is a deliberate move from convenient simulation to a machine of absolute, physically verifiable truth.',
+      rationale: 'Initial designs relied on 74xx ICs as temporary placeholders to prove circuit behavior. The current build intentionally bridges the gap: 624 discrete MOSFET gates live on the custom boards while 2,864 transistors remain inside trusted 74HC logic ICs for routing and arithmetic. This hybrid stage lets me verify the discrete logic without sacrificing a shipped system, and future iterations can ultimately migrate more blocks to discrete MOSFET meshes.',
       tradeoffs: [
-        'Zero "Black Box" Abstractions',
-        'Physical Verifiability',
-        'From $2 ICs to Custom Logic',
+        'Hybrid build (624 discrete + 2,864 IC)',
+        'Physical verifiability for MOSFET gates',
+        'IC-based routing keeps delivery on track',
       ],
       colSpan: 'md:col-span-2',
       bgGradient: 'from-blue-500/10 to-purple-500/10'
@@ -40,7 +40,7 @@ export default function DesignPhilosophy() {
       tradeoffs: [
         'Designed Solo',
         'Sophomore Year Project',
-        '3,488 Discrete Transistors',
+        '3,488 Total Transistors (624 discrete + 2,864 IC)',
       ],
       colSpan: 'md:col-span-2',
       bgGradient: 'from-indigo-500/10 to-blue-500/10'

@@ -13,7 +13,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'vlsi-inverter',
     title: 'Inverter (MOSFET)',
-    image: '/media/design/vlsi/design_vlsi_inverter_mosfet.jpg',
+    image: '/media/design/vlsi/design_vlsi_inverter_mosfet.webp',
     type: 'image',
     category: 'silicon',
     description: 'Custom inverter design in Electric VLSI',
@@ -21,7 +21,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'vlsi-nand',
     title: 'NAND Gate (MOSFET)',
-    image: '/media/design/vlsi/design_vlsi_nand_mosfet.jpg',
+    image: '/media/design/vlsi/design_vlsi_nand_mosfet.webp',
     type: 'image',
     category: 'silicon',
     description: 'NAND gate from transistor level',
@@ -29,7 +29,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'vlsi-xor',
     title: 'XOR Gate (MOSFET)',
-    image: '/media/design/vlsi/design_vlsi_xor_mosfet.jpg',
+    image: '/media/design/vlsi/design_vlsi_xor_mosfet.webp',
     type: 'image',
     category: 'silicon',
     description: 'XOR gate MOSFET implementation',
@@ -37,7 +37,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-half-adder',
     title: 'Half Adder (Electric)',
-    image: '/media/design/vlsi/design_electric_half_adder.png',
+    image: '/media/design/vlsi/design_electric_half_adder.webp',
     type: 'image',
     category: 'silicon',
     description: '1-bit Half Adder in Electric VLSI with DRC check',
@@ -45,7 +45,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-xor',
     title: 'XOR Gate (Electric)',
-    image: '/media/design/vlsi/design_electric_xor.png',
+    image: '/media/design/vlsi/design_electric_xor.webp',
     type: 'image',
     category: 'silicon',
     description: 'XOR gate layout verification',
@@ -53,7 +53,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-nand',
     title: 'NAND Gate (Electric)',
-    image: '/media/design/vlsi/design_electric_nand.png',
+    image: '/media/design/vlsi/design_electric_nand.webp',
     type: 'image',
     category: 'silicon',
     description: 'NAND gate implementation in Electric',
@@ -61,7 +61,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-and',
     title: 'AND Gate (Electric)',
-    image: '/media/design/vlsi/design_electric_and.png',
+    image: '/media/design/vlsi/design_electric_and.webp',
     type: 'image',
     category: 'silicon',
     description: 'AND gate layout verification',
@@ -69,7 +69,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-or',
     title: 'OR Gate (Electric)',
-    image: '/media/design/vlsi/design_electric_or.png',
+    image: '/media/design/vlsi/design_electric_or.webp',
     type: 'image',
     category: 'silicon',
     description: 'OR gate layout verification',
@@ -77,7 +77,7 @@ export const siliconGallery: GalleryItem[] = [
   {
     id: 'electric-xnor',
     title: 'XNOR Gate (Electric)',
-    image: '/media/design/vlsi/design_electric_xnor.png',
+    image: '/media/design/vlsi/design_electric_xnor.webp',
     type: 'image',
     category: 'silicon',
     description: 'XNOR gate layout verification',
@@ -209,7 +209,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-main-logic',
     title: 'Main Logic Board',
-    image: '/media/design/kicad/main_logic.png',
+    image: '/media/design/kicad/main_logic_page-0001.webp',
     type: 'image',
     category: 'hardware',
     description: 'Central logic integration board',
@@ -225,7 +225,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-control',
     title: 'Control Unit',
-    image: '/media/design/kicad/pcb_control.png',
+    image: '/media/design/kicad/pcb_control.webp',
     type: 'image',
     category: 'hardware',
     description: 'Instruction decoding and control logic',
@@ -233,7 +233,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-flags',
     title: 'Flags Register',
-    image: '/media/design/kicad/pcb_flags.png',
+    image: '/media/design/kicad/pcb_flags.webp',
     type: 'image',
     category: 'hardware',
     description: 'Status flags (Zero, Carry, Overflow)',
@@ -241,7 +241,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-led',
     title: 'Output Display',
-    image: '/media/design/kicad/pcb_led_panel_1.png',
+    image: '/media/design/kicad/pcb_led_panel_1.webp',
     type: 'image',
     category: 'hardware',
     description: 'Binary LED output panel',
@@ -267,12 +267,12 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Complete 8-bit ALU simulation running all opcodes',
-    poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.png',
+    poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.webp',
   },
   {
     id: 'logisim-layout',
     title: 'ALU Layout (Logisim)',
-    image: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
+    image: '/media/images/simulations/logisim/sim_logisim_alu_layout.webp',
     type: 'image',
     category: 'verification',
     description: 'System layout in Logisim',
@@ -284,7 +284,7 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Logic unit verification and FPGA export test',
-    poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
+    poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.webp',
   },
   // NGSpice
   {
@@ -294,7 +294,7 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Transient analysis of NOR gate switching',
-    poster: '/media/simulations/ngspice/not-spice.png',
+    poster: '/media/simulations/ngspice/not-spice.webp',
   },
   // Physical Testing - removed missing images
   // Physical Testing - removed missing images

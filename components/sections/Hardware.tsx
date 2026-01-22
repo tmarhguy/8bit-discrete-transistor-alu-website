@@ -14,7 +14,7 @@ export default function Hardware() {
       name: 'Main Logic',
       quantity: '×1',
       description: 'Core ALU implementation with 8-bit adder and logic circuits',
-      tech: '3,488 Transistors'
+      tech: '3,488 total transistors (624 discrete MOSFETs + 2,864 inside 74HC logic)'
     },
     {
       name: 'Add/Sub Module',
@@ -31,7 +31,7 @@ export default function Hardware() {
     {
       name: 'Flags Module',
       quantity: '×1',
-      description: 'Status flag indicators (Carry, Zero, Negative)',
+      description: 'Status flag indicators (Carry, Equal, Less, Greater)',
       tech: 'LED drivers + logic'
     },
   ];
@@ -112,9 +112,9 @@ export default function Hardware() {
                  <div className="text-center mb-12">
                     <h3 className="text-2xl font-bold text-white mb-4">Factual Transistor Count</h3>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
-                        A rigorous audit of every component in the system. The "8-Bit Discrete Transistor ALU" title refers to the 
-                        architectural decision to build core logic gates from discrete MOSFETs, while leveraging standard ICs for 
-                        routing and specific arithmetic functions.
+                      A rigorous audit of every component in the system. The "8-Bit Discrete Transistor ALU" title refers to building
+                      the core gates from 624 discrete MOSFETs while 2,864 transistors remain within 74HC chips to accelerate routing and specific arithmetic blocks.
+                      This hybrid balance keeps the system verifiable without sacrificing reliability.
                     </p>
                  </div>
 

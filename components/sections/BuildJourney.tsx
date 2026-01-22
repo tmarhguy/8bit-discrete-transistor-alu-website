@@ -86,6 +86,13 @@ function DetailPanel({
 
   const isCompleted = stage.status === 'completed';
   const isUpcoming = stage.status === 'upcoming';
+  const galleryImages = [
+    ...(stage.video ? [stage.video] : []),
+    ...(stage.image ? [stage.image] : []),
+    ...(stage.detailImages || []),
+  ];
+  const shouldShowGallery = !stage.galleryDisabled && galleryImages.length > 0;
+  const notice = stage.notice;
 
   return (
     <motion.div
@@ -192,15 +199,28 @@ function DetailPanel({
       {/* Right: Media */}
       <div className="relative rounded-xl overflow-hidden bg-zinc-900 border border-white/10 min-h-[400px]">
         <div className="h-full w-full p-4">
-          <InteractiveGallery 
-            images={[
-              ...(stage.video ? [stage.video] : []), 
-              stage.image, 
-              ...(stage.detailImages || [])
-            ].filter(Boolean)} 
-            title={stage.title}
-            poster={stage.image}
-          />
+          {shouldShowGallery ? (
+            <InteractiveGallery 
+              images={galleryImages}
+              title={stage.title}
+              poster={stage.image || undefined}
+            />
+          ) : (
+            <div className="h-full w-full flex flex-col items-center justify-center gap-4 text-center rounded-2xl border border-[#D4AF37]/50 bg-gradient-to-br from-[#D4AF37]/15 via-transparent to-black p-6">
+              <span className="text-[10px] uppercase tracking-[0.4em] text-[#F5DEB3] border border-[#F5DEB3]/40 rounded-full px-3 py-1">
+                Ongoing
+              </span>
+              <h4 className="text-2xl font-semibold text-[#F5DEB3]">
+                {notice?.title ?? `${stage.title} in progress`}
+              </h4>
+              <p className="text-sm text-white/70 max-w-sm">
+                {notice?.body ?? 'Updates will appear here as each milestone advances.'}
+              </p>
+              <p className="text-xs uppercase tracking-[0.5em] text-white/50">
+                Gold status updates will arrive once new photos land.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

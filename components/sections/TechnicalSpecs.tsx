@@ -8,7 +8,7 @@ export default function TechnicalSpecs() {
     { parameter: 'Supply Voltage', value: '5V DC', tolerance: '±5%' },
     { parameter: 'Logic High (VIH)', value: '3.5V', tolerance: 'min' },
     { parameter: 'Logic Low (VIL)', value: '1.5V', tolerance: 'max' },
-    { parameter: 'Propagation Delay', value: '~80ns', tolerance: 'typ' },
+    { parameter: 'Propagation Delay', value: 'Logic ~80ns / Arithmetic ~445ns', tolerance: 'Operation-dependent' },
     { parameter: 'Power Consumption', value: '~2.5W', tolerance: 'max @ 5V' },
     { parameter: 'Operating Temperature', value: '0°C to 70°C', tolerance: '' },
   ];
@@ -23,11 +23,11 @@ export default function TechnicalSpecs() {
   ];
 
   const timingSpecs = [
-    { operation: 'ADD/SUB', delay: '~80ns', description: 'Full 8-bit ripple carry' },
+    { operation: 'ADD/SUB', delay: '~445ns', description: 'Full 8-bit ripple-carry arithmetic path' },
     { operation: 'AND/OR/XOR', delay: '~10ns', description: 'Single gate delay' },
     { operation: 'NOT', delay: '~5ns', description: 'Inverter propagation' },
     { operation: 'Shift/Rotate', delay: '~15ns', description: 'Multiplexer delay' },
-    { operation: 'Flag Update', delay: '~20ns', description: 'Carry, Zero, Negative' },
+    { operation: 'Flag Update', delay: '~20ns', description: 'Carry, Equal, Less, Greater' },
   ];
 
   const ioSpecs = [
@@ -35,7 +35,7 @@ export default function TechnicalSpecs() {
     { signal: 'Data Input B', pins: '8', type: 'Input', voltage: '5V TTL' },
     { signal: 'Data Output', pins: '8', type: 'Output', voltage: '5V TTL' },
     { signal: 'Operation Select', pins: '5', type: 'Input', voltage: '5V TTL' },
-    { signal: 'Flags (C, Z, N)', pins: '3', type: 'Output', voltage: '5V TTL' },
+    { signal: 'Flags (C, E, L, G)', pins: '4', type: 'Output', voltage: '5V TTL' },
     { signal: 'Power/Ground', pins: '4', type: 'Power', voltage: '5V/GND' },
   ];
 
@@ -113,8 +113,7 @@ export default function TechnicalSpecs() {
             </div>
             <div className="mt-6 p-4 bg-accent/10 rounded-lg">
               <p className="text-sm text-muted-foreground">
-                <span className="font-semibold text-accent">Note:</span> Timing values are estimates from NGSpice simulation.
-                Actual hardware performance may vary based on component tolerances and PCB layout.
+                <span className="font-semibold text-accent">Note:</span> Logic paths settle near ~80ns while the ripple-carry arithmetic path stretches to ~445ns in NGSpice simulation. Actual hardware performance may vary based on tolerances and layout.
               </p>
             </div>
           </div>

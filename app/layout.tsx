@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     images: [
       {
         // Optimized 1200x630 OG image
-        url: 'https://alu.tmarhguy.com/media/images/opengraph-default.png',
+        url: 'https://alu.tmarhguy.com/media/images/opengraph-default.webp',
         width: 1200,
         height: 630,
         alt: 'Physical 8-Bit Discrete Transistor ALU',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "3,488 transistors. One 8-bit ALU. Explore the engineering behind a hand-built computer component by Tyrone Marhguy.",
-    images: ['https://alu.tmarhguy.com/media/images/opengraph-default.png'],
+    images: ['https://alu.tmarhguy.com/media/images/opengraph-default.webp'],
     creator: '@tmarhguy', // Verification if user has twitter
   },
 };
@@ -106,7 +106,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="8-Bit ALU" />
-        <link rel="apple-touch-icon" href="/media/images/pcb/renders/alu_slant.png" />
+        <link rel="apple-touch-icon" href="/media/images/pcb/renders/alu_slant.webp" />
         
         {/* Mobile Optimization */}
         <meta name="format-detection" content="telephone=no" />

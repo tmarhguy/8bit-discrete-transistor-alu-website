@@ -12,7 +12,7 @@ This report details the factual transistor count for the **8-Bit Discrete Transi
 
 ---
 
-verified from logism-evolution circuit simulation file
+Verified from [Logisim-Evolution circuit simulation file](https://github.com/tmarhguy/8bit-discrete-transistor-alu/blob/main/sim/top/alu_top.circ)
 
 ## 1. Discrete Transistor Breakdown
 These components are built using individual discrete transistors.

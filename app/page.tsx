@@ -12,6 +12,7 @@ const PWAInstallPrompt = dynamic(() => import('@/components/ui/PWAInstallPrompt'
 import RegisterServiceWorker from '@/app/register-sw';
 import Navbar from '@/components/sections/Navbar';
 import Hero from '@/components/sections/Hero';
+import BuildJourney from '@/components/sections/BuildJourney';
 // Loading placeholder for better perceived performance
 const SectionLoader = () => (
   <div className="min-h-[400px] flex items-center justify-center bg-black px-4">
@@ -20,11 +21,6 @@ const SectionLoader = () => (
     </div>
   </div>
 );
-
-const BuildJourney = dynamic(() => import('@/components/sections/BuildJourney'), {
-  loading: () => <SectionLoader />,
-  ssr: false, // Defer for mobile performance
-});
 
 const MetricsDashboard = dynamic(() => import('@/components/sections/MetricsDashboard'), {
   loading: () => <SectionLoader />,
@@ -116,7 +112,7 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <main id="main">
+        <main id="main" className="pb-[100vh]">
           <BuildJourney />
           <MetricsDashboard />
           
