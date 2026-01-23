@@ -4,7 +4,6 @@ import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { Stage, Environment, ContactShadows, Stats, PerformanceMonitor } from '@react-three/drei';
 import SceneControls from './SceneControls';
-import ControlsLegend from './ControlsLegend';
 import { Suspense, useState, useMemo, useEffect, useRef } from 'react';
 import Model from './Model';
 
@@ -56,6 +55,7 @@ export default function InteractiveScene({
   const tier = usePerformanceTier();
   const [dpr, setDpr] = useState(DPR_CAPS[tier][1]); 
   const [autoRotate, setAutoRotate] = useState(true);
+  const [isImmersivePlaying, setIsImmersivePlaying] = useState(false); // New state to force frameloop
   const [isVisible, setIsVisible] = useState(true);
 
   // Offscreen pause: stop rendering when not visible
@@ -86,7 +86,8 @@ export default function InteractiveScene({
     <div ref={containerRef} className="w-full h-full">
       <Canvas
         dpr={dpr}
-        frameloop={isVisible ? (autoRotate ? 'always' : 'demand') : 'never'}
+        // FORCE ALWAYS RENDERING IF PLAYING: logic updated
+        frameloop={isVisible ? ((autoRotate || isImmersivePlaying) ? 'always' : 'demand') : 'never'}
         shadows={tier !== 'low'}
         camera={{ position: [10, 15, 10], fov: 45 }} 
         gl={{ 
@@ -167,10 +168,10 @@ export default function InteractiveScene({
         <SceneControls 
           autoRotate={autoRotate} 
           onAutoRotateChange={setAutoRotate} 
+          // Inject control to lift state up
+          onPlaybackStateChange={setIsImmersivePlaying}
         />
         
-        {/* UI: Heads Up Display */}
-        <ControlsLegend />
       </Canvas>
     </div>
   );

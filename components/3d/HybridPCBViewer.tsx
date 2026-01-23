@@ -5,19 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Layers, Box, Maximize2, Minimize2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import SceneLoader from '@/components/ui/SceneLoader';
+import ControlsLegend from './ControlsLegend';
 import ExplodedGallery from './ExplodedGallery';
 
 // Lazy Load 3D Scene (Heavy)
 const InteractiveScene = dynamic(() => import('./InteractiveScene'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-black/90">
-      <div className="text-center">
-        <LoadingSpinner />
-        <p className="mt-4 text-green-500 font-mono text-sm animate-pulse">Initializing WebGL Context...</p>
-      </div>
-    </div>
-  ),
+  loading: () => <SceneLoader isInitializing={true} />,
 });
 
 interface HybridPCBViewerProps {
@@ -141,6 +136,11 @@ export default function HybridPCBViewer({ initialMode = '2D_EXPLODED' }: HybridP
                  showGrid={true}
                  showStats={false} // Cleaner for default
                />
+               {/* 3D Asset Loading Progress */}
+               <SceneLoader />
+
+               {/* Controls Legend - Aligned with Badge */}
+               <ControlsLegend />
              </div>
           </div>
         )}

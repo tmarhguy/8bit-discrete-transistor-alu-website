@@ -1,12 +1,10 @@
 'use client';
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background z-50">
-      <div className="relative">
-        <div className="w-16 h-16 border-4 border-muted border-t-accent rounded-full spinner"></div>
-        <p className="mt-4 text-muted-foreground text-sm text-center">Loading 3D Scene...</p>
-      </div>
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-16 h-16 border-4 border-muted border-t-accent rounded-full spinner"></div>
+      {children}
     </div>
   );
 }
