@@ -118,22 +118,11 @@ body {
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
 .spinner {
   animation: spin 1s linear infinite;
 }
 
-.animate-shimmer {
-  animation: shimmer 2s ease-in-out infinite;
-}
+
 
 /* Smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
