@@ -272,7 +272,7 @@ export const verificationGallery: GalleryItem[] = [
   {
     id: 'logisim-layout',
     title: 'ALU Layout (Logisim)',
-    image: '/media/images/simulations/logisim/sim_logisim_alu_layout.webp',
+    image: '/media/simulations/logisim/sim_logisim_alu_layout.webp',
     type: 'image',
     category: 'verification',
     description: 'System layout in Logisim',
@@ -284,7 +284,7 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Logic unit verification and FPGA export test',
-    poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.webp',
+    poster: '/media/simulations/logisim/sim_logisim_alu_layout.webp',
   },
   // NGSpice
   {

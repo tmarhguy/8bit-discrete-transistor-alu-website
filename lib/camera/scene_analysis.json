@@ -1,0 +1,41 @@
+=== DWELL POINTS (where you spent time) ===
+Total dwell points: 209
+Sampled for analysis: 42
+
+=== SCENE BREAKDOWN ===
+Scene 1: Initial Approach
+  Time: 0.0s - 43.9s (43.9s)
+  Avg distance: 1.16
+  Rotation: 67%
+  Key points: 18
+
+Scene 2: Close Rotating
+  Time: 43.9s - 102.3s (58.5s)
+  Avg distance: 3.26
+  Rotation: 0%
+  Key points: 1
+
+Scene 3: Detail Inspection
+  Time: 102.3s - 160.8s (58.5s)
+  Avg distance: 1.69
+  Rotation: 100%
+  Key points: 5
+
+Scene 4: Mid-Range Orbit
+  Time: 160.8s - 219.3s (58.5s)
+  Avg distance: 1.39
+  Rotation: 0%
+  Key points: 13
+
+Scene 5: Focused Detail
+  Time: 219.3s - 263.1s (43.9s)
+  Avg distance: 0.81
+  Rotation: 0%
+  Key points: 3
+
+Scene 6: Final Sweep
+  Time: 263.1s - 292.4s (29.2s)
+  Avg distance: 1.87
+  Rotation: 100%
+  Key points: 2
+

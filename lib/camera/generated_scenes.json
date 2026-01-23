@@ -1,0 +1,504 @@
+[
+  {
+    "id": "scene1_zoom_in",
+    "name": "Zoom In From Top",
+    "snapshots": [
+      {
+        "position": [
+          0.007,
+          28.93,
+          -0.004
+        ],
+        "target": [
+          0.007,
+          0,
+          -0.004
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          0.033,
+          24.77,
+          -0.022
+        ],
+        "target": [
+          0.033,
+          0,
+          -0.022
+        ],
+        "fov": 45,
+        "timestamp": 1.268
+      },
+      {
+        "position": [
+          0.067,
+          19.331,
+          -0.045
+        ],
+        "target": [
+          0.067,
+          0,
+          -0.045
+        ],
+        "fov": 45,
+        "timestamp": 2.417
+      },
+      {
+        "position": [
+          0.101,
+          13.989,
+          -0.067
+        ],
+        "target": [
+          0.101,
+          0,
+          -0.067
+        ],
+        "fov": 45,
+        "timestamp": 3.62
+      },
+      {
+        "position": [
+          0.11,
+          11.349,
+          -0.071
+        ],
+        "target": [
+          0.11,
+          0,
+          -0.071
+        ],
+        "fov": 45,
+        "timestamp": 5
+      }
+    ],
+    "duration": 5,
+    "easing": "easeInOutQuart",
+    "suggestedSnapshots": 5
+  },
+  {
+    "id": "scene2_close_rotating",
+    "name": "Close Rotating Inspection",
+    "snapshots": [
+      {
+        "position": [
+          0.192,
+          0.661,
+          0.792
+        ],
+        "target": [
+          0.123,
+          0,
+          -0.074
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          0.979,
+          0.346,
+          0.507
+        ],
+        "target": [
+          0.123,
+          0,
+          -0.074
+        ],
+        "fov": 45,
+        "timestamp": 1.162
+      },
+      {
+        "position": [
+          1.128,
+          0.248,
+          -0.416
+        ],
+        "target": [
+          0.123,
+          0,
+          -0.074
+        ],
+        "fov": 45,
+        "timestamp": 2.36
+      },
+      {
+        "position": [
+          0.17,
+          0.255,
+          -1.255
+        ],
+        "target": [
+          0.121,
+          -0.02,
+          -0.079
+        ],
+        "fov": 45,
+        "timestamp": 3.914
+      },
+      {
+        "position": [
+          -0.874,
+          0.245,
+          -0.183
+        ],
+        "target": [
+          0.133,
+          0.009,
+          -0.091
+        ],
+        "fov": 45,
+        "timestamp": 5.89
+      },
+      {
+        "position": [
+          -0.518,
+          0.239,
+          0.534
+        ],
+        "target": [
+          0.135,
+          0.027,
+          -0.096
+        ],
+        "fov": 45,
+        "timestamp": 7
+      }
+    ],
+    "duration": 7,
+    "easing": "linear",
+    "suggestedSnapshots": 6
+  },
+  {
+    "id": "scene3_detail_static",
+    "name": "Static Detail View",
+    "snapshots": [
+      {
+        "position": [
+          -0.91,
+          0.195,
+          2.456
+        ],
+        "target": [
+          0.259,
+          -0.27,
+          0.048
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          0.299,
+          0.195,
+          2.724
+        ],
+        "target": [
+          0.259,
+          -0.27,
+          0.048
+        ],
+        "fov": 45,
+        "timestamp": 1.279
+      },
+      {
+        "position": [
+          1.411,
+          0.195,
+          2.464
+        ],
+        "target": [
+          0.259,
+          -0.27,
+          0.048
+        ],
+        "fov": 45,
+        "timestamp": 2.45
+      },
+      {
+        "position": [
+          2.4,
+          0.195,
+          1.654
+        ],
+        "target": [
+          0.259,
+          -0.27,
+          0.048
+        ],
+        "fov": 45,
+        "timestamp": 3.777
+      },
+      {
+        "position": [
+          2.888,
+          0.195,
+          0.548
+        ],
+        "target": [
+          0.259,
+          -0.27,
+          0.048
+        ],
+        "fov": 45,
+        "timestamp": 5
+      }
+    ],
+    "duration": 5,
+    "easing": "easeInOut",
+    "suggestedSnapshots": 5
+  },
+  {
+    "id": "scene4_mid_rotating",
+    "name": "Mid-Range Rotating View",
+    "snapshots": [
+      {
+        "position": [
+          2.494,
+          0.258,
+          2.365
+        ],
+        "target": [
+          0.263,
+          -0.297,
+          0.058
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          2.327,
+          1.869,
+          -1.397
+        ],
+        "target": [
+          0.259,
+          -0.299,
+          0.064
+        ],
+        "fov": 45,
+        "timestamp": 1.159
+      },
+      {
+        "position": [
+          -0.221,
+          2.496,
+          -1.687
+        ],
+        "target": [
+          0.259,
+          -0.299,
+          0.064
+        ],
+        "fov": 45,
+        "timestamp": 2.168
+      },
+      {
+        "position": [
+          -1.075,
+          2.942,
+          0.237
+        ],
+        "target": [
+          0.265,
+          -0.296,
+          0.069
+        ],
+        "fov": 45,
+        "timestamp": 3.307
+      },
+      {
+        "position": [
+          0.186,
+          4.893,
+          2.27
+        ],
+        "target": [
+          0.318,
+          -0.299,
+          0.108
+        ],
+        "fov": 45,
+        "timestamp": 4.502
+      },
+      {
+        "position": [
+          0.813,
+          0.766,
+          0.249
+        ],
+        "target": [
+          0.198,
+          -0.344,
+          0.311
+        ],
+        "fov": 45,
+        "timestamp": 6
+      }
+    ],
+    "duration": 6,
+    "easing": "linear",
+    "suggestedSnapshots": 6
+  },
+  {
+    "id": "scene5_hero_detail",
+    "name": "Hero Component Detail",
+    "snapshots": [
+      {
+        "position": [
+          -3.182,
+          0.444,
+          0.368
+        ],
+        "target": [
+          -0.211,
+          -0.042,
+          0.549
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          -2.25,
+          0.298,
+          0.404
+        ],
+        "target": [
+          -0.209,
+          -0.036,
+          0.528
+        ],
+        "fov": 45,
+        "timestamp": 0.956
+      },
+      {
+        "position": [
+          -1.642,
+          0.202,
+          0.428
+        ],
+        "target": [
+          -0.208,
+          -0.033,
+          0.527
+        ],
+        "fov": 45,
+        "timestamp": 1.982
+      },
+      {
+        "position": [
+          -1.444,
+          0.19,
+          0.598
+        ],
+        "target": [
+          -0.207,
+          -0.03,
+          0.548
+        ],
+        "fov": 45,
+        "timestamp": 3.069
+      },
+      {
+        "position": [
+          -1.084,
+          0.133,
+          0.608
+        ],
+        "target": [
+          -0.205,
+          -0.023,
+          0.572
+        ],
+        "fov": 45,
+        "timestamp": 4
+      }
+    ],
+    "duration": 4,
+    "easing": "easeOut",
+    "suggestedSnapshots": 5
+  },
+  {
+    "id": "scene6_pullback",
+    "name": "Final Pullback",
+    "snapshots": [
+      {
+        "position": [
+          -2.66,
+          2.769,
+          6.631
+        ],
+        "target": [
+          0.238,
+          0.95,
+          0.925
+        ],
+        "fov": 45,
+        "timestamp": 0
+      },
+      {
+        "position": [
+          1.729,
+          0.504,
+          -0.415
+        ],
+        "target": [
+          0.457,
+          0.507,
+          0.993
+        ],
+        "fov": 45,
+        "timestamp": 1.373
+      },
+      {
+        "position": [
+          0.205,
+          0.301,
+          -0.873
+        ],
+        "target": [
+          0.468,
+          0.303,
+          1.006
+        ],
+        "fov": 45,
+        "timestamp": 1.796
+      },
+      {
+        "position": [
+          -0.946,
+          0.137,
+          2.342
+        ],
+        "target": [
+          0.45,
+          0.147,
+          1.057
+        ],
+        "fov": 45,
+        "timestamp": 2.843
+      },
+      {
+        "position": [
+          -0.44,
+          0.137,
+          2.733
+        ],
+        "target": [
+          0.45,
+          0.147,
+          1.057
+        ],
+        "fov": 45,
+        "timestamp": 3
+      }
+    ],
+    "duration": 3,
+    "easing": "easeIn",
+    "suggestedSnapshots": 5
+  }
+]
