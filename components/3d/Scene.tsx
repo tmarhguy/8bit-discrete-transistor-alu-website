@@ -1,6 +1,7 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas } 
+-rom '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense } from 'react';
 import Model from './Model';

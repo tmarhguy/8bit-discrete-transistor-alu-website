@@ -57,3 +57,8 @@ coverage/
 # Unreferenced root media files
 IMG_*.jpg
 IMG_*.PNG
+
+# dev scripts
+verify_*.py
+__pycache__/
+

@@ -7,17 +7,17 @@ import binaryFlowAnimation from '@/public/animations/binary-flow.json';
 export default function Architecture() {
   const components = [
     {
-      title: '1-Bit Half Adder',
+      title: '1-bit Half Adder',
       transistors: '~20 transistors',
       description: 'XOR + AND gates'
     },
     {
-      title: '1-Bit Full Adder',
+      title: '1-bit Full Adder',
       transistors: '~46 transistors',
       description: '2× Half Adders + OR'
     },
     {
-      title: '8-Bit Ripple Adder',
+      title: '8-bit Ripple Adder',
       transistors: '~368 transistors',
       description: '8× Full Adders cascaded'
     },
@@ -72,7 +72,7 @@ export default function Architecture() {
                 <LottieAnimation animationData={binaryFlowAnimation} />
              </div>
              <p className="relative z-10 text-accent font-mono text-sm tracking-widest uppercase">
-                &lt; 8-Bit Data Bus Architecture &gt;
+                &lt; 8-bit Data Bus Architecture &gt;
              </p>
           </div>
         </FadeUp>

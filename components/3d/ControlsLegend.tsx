@@ -29,11 +29,11 @@ export default function ControlsLegend() {
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2 px-3 py-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 text-zinc-400 hover:text-white hover:bg-black/60 transition-all shadow-lg hover:shadow-xl hover:border-white/20"
+          className="group flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-amber-500/20 text-amber-100/90 shadow-[0_0_15px_rgba(245,158,11,0.1)] hover:bg-black/80 hover:border-amber-500/40 hover:text-white transition-all"
         >
-          <Info size={16} />
-          <span className="text-xs font-medium opacity-0 group-hover:opacity-100 w-0 group-hover:w-auto overflow-hidden transition-all whitespace-nowrap">
-            Controls
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)] animate-pulse"></div>
+          <span className="text-[10px] font-mono font-semibold tracking-wider drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]">
+            CONTROLS
           </span>
         </button>
       ) : (
@@ -41,7 +41,7 @@ export default function ControlsLegend() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/5">
             <div className="flex items-center gap-2">
-              <Command size={14} className="text-zinc-400" />
+              <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)] animate-pulse"></div>
               <span className="text-xs font-bold text-zinc-100 tracking-wide">CONTROLS</span>
             </div>
             <button 

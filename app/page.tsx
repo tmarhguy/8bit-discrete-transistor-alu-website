@@ -12,7 +12,7 @@ const PWAInstallPrompt = dynamic(() => import('@/components/ui/PWAInstallPrompt'
 import RegisterServiceWorker from '@/app/register-sw';
 import Navbar from '@/components/sections/Navbar';
 import Hero from '@/components/sections/Hero';
-import BuildJourney from '@/components/sections/BuildJourney';
+
 // Loading placeholder for better perceived performance
 const SectionLoader = () => (
   <div className="min-h-[400px] flex items-center justify-center bg-black px-4">
@@ -22,12 +22,51 @@ const SectionLoader = () => (
   </div>
 );
 
+// Custom loader for BuildJourney to differentiate from generic sections and match the dark gradient
+const BuildJourneyLoader = () => (
+  <div className="relative py-24 bg-gradient-to-b from-black via-zinc-950 to-black overflow-hidden min-h-[800px] flex flex-col items-center justify-center">
+     <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Header Skeleton */}
+        <div className="text-center space-y-4">
+           <div className="h-10 w-64 bg-zinc-900 rounded-lg mx-auto animate-pulse" />
+           <div className="h-6 w-96 bg-zinc-900/50 rounded-lg mx-auto animate-pulse" />
+        </div>
+        
+        {/* Timeline placeholder */}
+        <div className="w-full h-1 bg-zinc-900 relative my-12" />
+        
+        {/* Content Placeholder */}
+        <div className="glass glass-border rounded-2xl p-8 min-h-[500px]">
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+             <div className="space-y-6">
+                <div className="h-8 w-48 bg-zinc-800 rounded animate-pulse" />
+                <div className="space-y-3">
+                   <div className="h-4 w-full bg-zinc-800/50 rounded animate-pulse" />
+                   <div className="h-4 w-[90%] bg-zinc-800/50 rounded animate-pulse" />
+                   <div className="h-4 w-[95%] bg-zinc-800/50 rounded animate-pulse" />
+                </div>
+             </div>
+             <div className="bg-zinc-900 rounded-xl h-full min-h-[400px] animate-pulse" />
+           </div>
+        </div>
+     </div>
+  </div>
+);
+
+const BuildJourney = dynamic(() => import('@/components/sections/BuildJourney'), {
+  loading: () => <BuildJourneyLoader />,
+});
+
 const MetricsDashboard = dynamic(() => import('@/components/sections/MetricsDashboard'), {
   loading: () => <SectionLoader />,
 });
 
 // Lazy load below-fold sections for better initial page load
 const DesignPhilosophy = dynamic(() => import('@/components/sections/DesignPhilosophy'), {
+  loading: () => <SectionLoader />,
+});
+
+const FutureOptimizations = dynamic(() => import('@/components/sections/FutureOptimizations'), {
   loading: () => <SectionLoader />,
 });
 
@@ -117,8 +156,14 @@ export default function Home() {
           <MetricsDashboard />
           
           <LazyRender rootMargin="400px">
+            <FutureOptimizations />
+          </LazyRender>
+          
+          <LazyRender rootMargin="400px">
             <DesignPhilosophy />
           </LazyRender>
+
+
 
           <LazyRender rootMargin="400px">
             <Architecture />

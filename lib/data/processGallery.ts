@@ -225,7 +225,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-control',
     title: 'Control Unit',
-    image: '/media/design/kicad/pcb_control.webp',
+    image: '/media/design/kicad/pcb_control.png',
     type: 'image',
     category: 'hardware',
     description: 'Instruction decoding and control logic',
@@ -233,7 +233,7 @@ export const hardwareGallery: GalleryItem[] = [
   {
     id: 'pcb-flags',
     title: 'Flags Register',
-    image: '/media/design/kicad/pcb_flags.webp',
+    image: '/media/design/kicad/pcb_flags.png',
     type: 'image',
     category: 'hardware',
     description: 'Status flags (Zero, Carry, Overflow)',
@@ -267,7 +267,7 @@ export const verificationGallery: GalleryItem[] = [
     type: 'video',
     category: 'verification',
     description: 'Complete 8-bit ALU simulation running all opcodes',
-    poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.webp',
+    poster: '/media/simulations/logisim/sim_logisim_evolution_full.webp',
   },
   {
     id: 'logisim-layout',

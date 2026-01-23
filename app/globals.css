@@ -1,5 +1,6 @@
 /* Optimized font loading with display=swap for mobile performance */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Optimized font loading with display=swap for mobile performance */
+/* Font loaded via next/font/google in layout.tsx */
 
 @tailwind base;
 @tailwind components;

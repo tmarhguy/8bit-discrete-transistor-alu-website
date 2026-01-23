@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-black pt-12 sm:pt-16 pb-6"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black pt-12 sm:pt-16 pb-6"
     >
       {/* 1. Ambient Lighting (Subtle Top Gradient) */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-black to-black pointer-events-none z-0 opacity-50" />
@@ -91,6 +91,7 @@ export default function Hero() {
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                </svg>
              </a>
+
           </div>
         </motion.div>
       </motion.div>

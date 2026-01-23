@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import SceneLoader from '@/components/ui/SceneLoader';
 import ControlsLegend from './ControlsLegend';
 import ExplodedGallery from './ExplodedGallery';
+import CinematicControls from './CinematicControls';
 
 // Lazy Load 3D Scene (Heavy)
 const InteractiveScene = dynamic(() => import('./InteractiveScene'), {
@@ -25,6 +26,10 @@ export default function HybridPCBViewer({ initialMode = '2D_EXPLODED' }: HybridP
   const [hasLoaded3D, setHasLoaded3D] = useState(mode === '3D_ASSEMBLED');
   const [showTouchHints, setShowTouchHints] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Cinematic State
+  const [startTour, setStartTour] = useState(false);
+  const [isTourPlaying, setIsTourPlaying] = useState(false);
 
   // Detect mobile and show touch hints
   useEffect(() => {
@@ -60,6 +65,12 @@ export default function HybridPCBViewer({ initialMode = '2D_EXPLODED' }: HybridP
       setHasLoaded3D(true);
       if (isMobile) setShowTouchHints(true);
     }
+  };
+
+  const handleStartTour = () => {
+    setStartTour(true);
+    // Reset trigger next tick so it can be triggered again if needed
+    setTimeout(() => setStartTour(false), 100);
   };
 
   return (
@@ -135,12 +146,23 @@ export default function HybridPCBViewer({ initialMode = '2D_EXPLODED' }: HybridP
                  onModelSelect={() => {}} 
                  showGrid={true}
                  showStats={false} // Cleaner for default
+                 startTour={startTour}
+                 onTourStateChange={setIsTourPlaying}
                />
                {/* 3D Asset Loading Progress */}
                <SceneLoader />
 
                {/* Controls Legend - Aligned with Badge */}
                <ControlsLegend />
+               
+               {/* Cinematic Tour Controls */}
+               <CinematicControls 
+                  isVisible={mode === '3D_ASSEMBLED'}
+                  isPlaying={isTourPlaying}
+                  onPlay={handleStartTour}
+                  onStop={() => {}} // Scene handles stop logic mostly
+                  isMobile={isMobile}
+               />
              </div>
           </div>
         )}

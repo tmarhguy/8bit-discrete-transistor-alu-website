@@ -19,7 +19,7 @@ export default function DesignPhilosophy() {
     },
     {
       title: 'MOSFET-Level Efficiency',
-      rationale: 'Textbook logic gates are inefficient in silicon. By ignoring standard gate-level design and optimizing at the transistor level (NAND/NOR topologies), I reduced the complexity of a single MUX from 66 to 42 transistors. This 36% reduction bridges the gap between amateur schematics and genuine VLSI efficiency.',
+      rationale: 'Textbook logic gates are inefficient in silicon. By ignoring standard gate-level design and optimizing at the transistor-level (NAND/NOR topologies), I reduced the complexity of a single MUX from 66 to 42 transistors. This 36% reduction bridges the gap between amateur schematics and genuine VLSI efficiency.',
       tradeoffs: [
         'Custom Transistor Topologies',
         '36% Silicon Reduction',
@@ -36,7 +36,7 @@ export default function DesignPhilosophy() {
     },
     {
       title: 'The Goldilocks Architecture',
-      rationale: 'Two bits is a toy; thirty-two is a career. Eight bits represents the absolute limit of what a solo sophomore can verify alone. It mirrors the constraints that shaped legendary chips like the 6502, balancing the ambition of a CPU with the reality of one student\'s bandwidth.',
+      rationale: 'Two bits is a toy; thirty-two is a career. 8-bit represents the absolute limit of what a solo sophomore can verify alone. It mirrors the constraints that shaped legendary chips like the 6502, balancing the ambition of a CPU with the reality of one student\'s bandwidth.',
       tradeoffs: [
         'Designed Solo',
         'Sophomore Year Project',

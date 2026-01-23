@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const sections = [
   { id: 'build-journey', label: 'Timeline' },
-  { id: 'design-philosophy', label: 'Design' },
+  { id: 'future-optimizations', label: 'Feasibility' },
   { id: 'architecture', label: 'Architecture' },
   { id: 'process-gallery', label: 'Gallery' },
   { id: 'testing-strategy', label: 'Testing' },

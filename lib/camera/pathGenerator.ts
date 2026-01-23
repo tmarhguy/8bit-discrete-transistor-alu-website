@@ -25,29 +25,36 @@ import { CameraSnapshot } from './types';
  * the smoothest possible motion.
  */
 export const CAMERA_KEYFRAMES = [
-  // Scene 1: Descent (Total: 5.0s - Cinematic Override)
-  { position: [0.950, 28.930, 0.900], target: [0.200, 0.300, 0.300], fov: 45, duration: 5.0 }, // Intro fall (0->1)
-  { position: [0.950, 0.900, 0.900], target: [0.200, 0.300, 0.300], fov: 45, duration: 1.2 }, // Settle -> Orbit Start (1->2)
+  // =========================================================================
+  // SMOOTH FLOW with CONSISTENT ROTATION DIRECTION
+  // Final scene: Slower rotation, more vertical ascent
+  // Constant speed: 1.81 units/second
+  // =========================================================================
+  
+  // SCENE 1: Orbital Drop (0-14s)
+  { position: [0.200, 25.000, 3.500], target: [0.200, 0.100, 0.100], fov: 60, duration: 12.69 }, // High orbit
+  { position: [1.100, 2.200, 1.100], target: [0.200, 0.110, 0.100], fov: 55, duration: 1.23 },  // Descend
 
-  // Scene 2: Circular Orbit
-  { position: [0.900, 0.850, 0.300], target: [0.200, 0.300, 0.300], fov: 45, duration: 2.1 }, // Arc 1 (2->3)
-  { position: [0.100, 0.800, 0.950], target: [0.200, 0.300, 0.300], fov: 45, duration: 2.7 }, // Arc 2 -> Pan Start (3->4)
+  // SCENE 2: Smooth Arc Around Board (14-20s)
+  { position: [2.000, 1.000, 0.500], target: [0.200, 0.120, 0.100], fov: 50, duration: 1.60 },  // Arc right
+  { position: [2.200, 0.400, -0.800], target: [0.200, 0.130, 0.100], fov: 45, duration: 1.66 }, // Continue arc
+  { position: [1.400, 0.200, -1.800], target: [0.200, 0.140, 0.120], fov: 40, duration: 1.53 }, // Lower arc
+  { position: [-0.400, 0.180, -2.000], target: [0.180, 0.150, 0.140], fov: 38, duration: 1.55 }, // Swing left
 
-  // Scene 3: Horizontal Pan
-  { position: [1.200, 0.800, 1.700], target: [0.250, 0.280, 0.250], fov: 45, duration: 2.6 }, // Pan start -> Pan mid (4->5)
-  { position: [2.270, 0.750, 1.000], target: [0.260, 0.270, 0.200], fov: 45, duration: 1.5 }, // Pan end -> Elevated Start (5->6)
+  // SCENE 3: Close Orbital Pass (20-24s)
+  { position: [-1.400, 0.350, -1.200], target: [0.160, 0.160, 0.140], fov: 35, duration: 1.31 }, // Climb & orbit
+  { position: [-1.600, 0.550, 0.200], target: [0.140, 0.170, 0.130], fov: 32, duration: 1.72 },  // Continue orbit
+  { position: [-0.800, 0.600, 1.400], target: [0.120, 0.180, 0.120], fov: 30, duration: 1.38 },  // Close pass
 
-  // Scene 4: Elevated View -> Component Focus
-  { position: [1.600, 0.900, 0.700], target: [0.200, 0.300, 0.200], fov: 45, duration: 4.0 }, // Start move -> High Point (6->7) (sped up from 7.5s)
-  { position: [-2.000, 1.700, 0.300], target: [0.150, 0.350, 0.150], fov: 45, duration: 3.8 }, // High point -> Approach (7->8)
+  // SCENE 4: Graceful Rise (24-27.5s)
+  { position: [0.600, 1.400, 1.800], target: [0.140, 0.160, 0.110], fov: 35, duration: 1.54 },   // Continue arc
+  { position: [1.400, 2.800, 1.200], target: [0.170, 0.130, 0.100], fov: 42, duration: 1.38 },   // Rising right
+  { position: [1.800, 4.500, 0.200], target: [0.190, 0.100, 0.100], fov: 48, duration: 1.43 },   // Continue rise
 
-  // Scene 5: Component Focus
-  { position: [-0.600, 1.300, 1.500], target: [0.180, 0.280, 0.180], fov: 45, duration: 3.9 }, // Approach -> Close up (8->9)
-  { position: [1.200, 0.900, 0.900], target: [0.260, 0.220, 0.260], fov: 42, duration: 0.8 }, // Close up -> Exit Start (9->10)
-
-  // Scene 6: Pullback / Exit
-  { position: [1.400, 0.900, 0.600], target: [0.260, 0.220, 0.260], fov: 45, duration: 5.5 }, // Start exit -> Final (10->11)
-  { position: [-1.200, 1.250, 0.800], target: [0.260, 0.220, 0.260], fov: 50, duration: 0.0 }, // Final shot (End)
+  // SCENE 5: Final Pullback (27.5-30s) - SLOW ROTATION, MORE VERTICAL
+  { position: [1.900, 7.200, 0.000], target: [0.200, 0.080, 0.100], fov: 50, duration: 1.65 },   // Mostly vertical
+  { position: [1.800, 10.000, -0.200], target: [0.200, 0.060, 0.100], fov: 52, duration: 1.55 }, // Slight rotation
+  { position: [1.600, 12.500, -0.300], target: [0.200, 0.040, 0.100], fov: 54, duration: 1.49 }, // Final gentle hold
 ];
 
 // Total duration is now sum of all segments

@@ -107,7 +107,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="8-Bit ALU" />
-        <link rel="apple-touch-icon" href="/media/images/pcb/renders/alu_slant.webp" />
+        <link rel="apple-touch-icon" href="/media/pcb/renders/alu_slant.webp" />
         
         {/* Mobile Optimization */}
         <meta name="format-detection" content="telephone=no" />

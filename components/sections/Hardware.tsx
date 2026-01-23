@@ -112,7 +112,7 @@ export default function Hardware() {
                  <div className="text-center mb-12">
                     <h3 className="text-2xl font-bold text-white mb-4">Factual Transistor Count</h3>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
-                      A rigorous audit of every component in the system. The "8-Bit Discrete Transistor ALU" title refers to building
+                      A rigorous audit of every component in the system. The "8-bit Discrete Transistor ALU" title refers to building
                       the core gates from 624 discrete MOSFETs while 2,864 transistors remain within 74HC chips to accelerate routing and specific arithmetic blocks.
                       This hybrid balance keeps the system verifiable without sacrificing reliability.
                     </p>

@@ -12,12 +12,14 @@ interface SceneControlsProps {
   autoRotate?: boolean;
   onAutoRotateChange?: (v: boolean) => void;
   onPlaybackStateChange?: (isPlaying: boolean) => void;
+  startTourProp?: boolean;
 }
 
 export default function SceneControls({ 
   autoRotate = false,
   onAutoRotateChange,
-  onPlaybackStateChange
+  onPlaybackStateChange,
+  startTourProp = false
 }: SceneControlsProps) {
   const cameraControlsRef = useRef<CameraControls>(null);
   const { camera, gl, scene } = useThree();
@@ -72,6 +74,19 @@ export default function SceneControls({
     isImmersivePlayingRef.current = isImmersivePlaying;
   }, [isImmersivePlaying]);
 
+  // Watch for external tour trigger (e.g. from UI button)
+  useEffect(() => {
+    if (startTourProp && !isImmersivePlaying) {
+      if (!isImmersivePlayingRef.current) {
+        autoRotateBeforePlaybackRef.current = autoRotateRef.current;
+        if (onAutoRotateChangeRef.current) {
+          onAutoRotateChangeRef.current(false); // Stop auto-rotate during playback
+        }
+        setIsImmersivePlaying(true);
+      }
+    }
+  }, [startTourProp, isImmersivePlaying]);
+
   // Enhanced mobile touch gesture handlers
   const handleTouchGestures = useCallback(() => {
     const canvas = gl.domElement;
@@ -81,6 +96,7 @@ export default function SceneControls({
     let tapTimer: NodeJS.Timeout | null = null;
     let longPressTimer: NodeJS.Timeout | null = null;
     let isLongPress = false;
+    let wasRotatingOnLongPress = false; // Track rotation state before long press
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -111,6 +127,17 @@ export default function SceneControls({
         longPressTimer = setTimeout(() => {
           isLongPress = true;
           haptics.impactHeavy(); // Signal "Mode Change"
+          
+          // Stop rotation if it was active
+          if (autoRotateRef.current) {
+            wasRotatingOnLongPress = true;
+            if (onAutoRotateChangeRef.current) {
+              onAutoRotateChangeRef.current(false);
+            }
+          } else {
+            wasRotatingOnLongPress = false;
+          }
+
           if (cameraControlsRef.current) {
             // Disable rotation to allow panning without spinning
             cameraControlsRef.current.azimuthRotateSpeed = 0;
@@ -151,8 +178,22 @@ export default function SceneControls({
         // Cancel single-finger logic if multi-touch
         if (longPressTimer) clearTimeout(longPressTimer);
         if (tapTimer) clearTimeout(tapTimer);
+        
+        // Fix: If interrupting a long press (e.g. adding 2nd finger), restore state
+        if (isLongPress) {
+          if (cameraControlsRef.current) {
+            cameraControlsRef.current.azimuthRotateSpeed = 1.0;
+            cameraControlsRef.current.polarRotateSpeed = 1.0;
+          }
+          // Resume auto-rotation if it was paused by the long press
+          if (wasRotatingOnLongPress && onAutoRotateChangeRef.current) {
+            onAutoRotateChangeRef.current(true);
+          }
+        }
+
         tapCount = 0;
         isLongPress = false;
+        wasRotatingOnLongPress = false;
       }
       
       // 2. Handle Multi-touch (Pinch/Rotate/Two-Finger Tap)
@@ -279,11 +320,17 @@ export default function SceneControls({
       
       if (isLongPress) {
         isLongPress = false;
-        // Restore Rotation
+        // Restore Rotation Settings
         if (cameraControlsRef.current) {
           cameraControlsRef.current.azimuthRotateSpeed = 1.0; // Default
           cameraControlsRef.current.polarRotateSpeed = 1.0;
         }
+
+        // Resume Auto-Rotation if needed
+        if (wasRotatingOnLongPress && onAutoRotateChangeRef.current) {
+          onAutoRotateChangeRef.current(true);
+        }
+        wasRotatingOnLongPress = false;
       }
 
       // Key Logic: Check for Two-Finger Tap Completion
@@ -326,11 +373,89 @@ export default function SceneControls({
 
   useEffect(() => {
     const cleanup = handleTouchGestures();
+
+    // Mouse Click Handler for Rotation Toggle & Hold-to-Pause
+    const canvas = gl.domElement;
     
-    // No auto-stop on mouse/wheel - rotation is ONLY controlled by SPACE key
+    // State capture for the specific interaction
+    let mouseDownTime = 0;
+    let mouseDownX = 0;
+    let mouseDownY = 0;
+    let wasRotatingOnMouseDown = false;
+    let isDragging = false; // Guard to prevent multiple listeners
+
+    const handleMouseUp = (e: MouseEvent) => {
+      // Only handle Left Click
+      if (e.button === 0) {
+        const timeDiff = performance.now() - mouseDownTime;
+        const dx = e.clientX - mouseDownX;
+        const dy = e.clientY - mouseDownY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Constants for "Click" detection
+        const CLICK_TIME_THRESHOLD = 250; // ms
+        const CLICK_MOVE_THRESHOLD = 5;   // pixels
+
+        if (timeDiff < CLICK_TIME_THRESHOLD && dist < CLICK_MOVE_THRESHOLD) {
+            // == CLICK EVENT (Toggle) ==
+            if (onAutoRotateChangeRef.current) {
+                // Toggle logic:
+                // If we paused it (wasRotating=true), click means STOP (keep it stopped).
+                // If it was already stopped (wasRotating=false), click means START.
+                
+                if (!wasRotatingOnMouseDown) {
+                     onAutoRotateChangeRef.current(true);
+                     haptics.success();
+                } else {
+                     haptics.impactLight();
+                }
+            }
+        } else {
+            // == DRAG / HOLD EVENT (Resume) ==
+            // If it was rotating before, resume it.
+            if (wasRotatingOnMouseDown && onAutoRotateChangeRef.current) {
+                onAutoRotateChangeRef.current(true);
+            }
+        }
+      }
+      
+      // Cleanup Global Listeners
+      window.removeEventListener('mouseup', handleMouseUp);
+      isDragging = false;
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      // Only track Left Click (button 0)
+      if (e.button === 0) {
+        // Prevent native selection/drag behaviors
+        e.preventDefault();
+        
+        mouseDownTime = performance.now();
+        mouseDownX = e.clientX;
+        mouseDownY = e.clientY;
+        
+        wasRotatingOnMouseDown = autoRotateRef.current;
+        
+        // Pause immediately for "Hold to freeze"
+        if (wasRotatingOnMouseDown && onAutoRotateChangeRef.current) {
+            onAutoRotateChangeRef.current(false);
+        }
+        
+        // Attach MouseUp globally to handle dragging off-canvas
+        if (!isDragging) {
+             window.addEventListener('mouseup', handleMouseUp);
+             isDragging = true;
+        }
+      }
+    };
+    
+    canvas.addEventListener('mousedown', handleMouseDown);
+    // Note: We do NOT attach mouseup to canvas anymore, only to window dynamically.
     
     return () => {
       cleanup();
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp); // Safety cleanup
     };
   }, [handleTouchGestures, gl.domElement]);
 
