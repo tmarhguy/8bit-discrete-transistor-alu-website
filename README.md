@@ -12,102 +12,100 @@
 
 ![Homepage Preview](public/media/readme/homepage.png)
 
-## The Core Project: Hardware First
+## Core Project Context
 
-**Important Context**: This repository is the *software companion* to a massive hardware engineering undertaking. It is not a standalone web experiment; it is the **Digital Twin** for a physical CPU I built from scratch using **3,488 transistors (hybrid discrete/IC)**.
+This repository serves as the **Digital Twin** for a physical CPU constructed using **3,488 transistors**. It bridges the gap between hardware engineering and software visualization, providing a high-fidelity, interactive 3D exploration of the physical hardware.
 
-> **⚠️ Hybrid Design Architecture:**
-> 
-> **Current Implementation (v1.0):**
-> - **Total Transistors:** 3,488 (624 discrete + 2,864 in ICs)
-> - **Discrete MOSFETs:** 624 transistors hand-wired on custom PCBs (inverters, NAND, NOR, XOR gates)
-> - **74HC Logic ICs:** 46 chips containing 2,864 transistors (74HC157 multiplexers, 74HC86 XOR gates)
-> 
-> **Rationale for Hybrid Approach:**
-> The 74xx ICs serve as *architectural placeholders* to validate the complete ALU design while keeping the initial build manageable. The discrete MOSFET sections demonstrate the core principle: building logic from individual transistors.
-> 
-> **Future Migration Path (v2.0):**
-> Planned replacement of 74HC multiplexers and XOR gates with optimized discrete MOSFET implementations. This will involve:
-> - Designing space-efficient discrete 4:1 multiplexer circuits
-> - Creating optimized XOR topologies using complementary MOSFET pairs
-> - Expanding PCB real estate to accommodate ~2,800 additional discrete components
-> - Maintaining pin-compatible interfaces for drop-in replacement
-> 
-> **Educational Value:** The current design showcases systematic verification methodology, custom PCB fabrication, and the fundamental principles of transistor-level logic design—independent of whether every transistor is individually placed.
+**Hardware Stats (v1.0):**
+- **Total Transistors:** 3,488 (624 discrete MOSFETs + 2,864 in 74HC series ICs)
+- **Discrete Logic:** Inverters, NAND, NOR, XOR gates hand-wired on custom PCBs.
+- **Architectural Placeholders:** 74HC157 multiplexers and 74HC86 XOR gates currently utilized to validate architecture (Migration to fully discrete logic planned for v2.0).
+- **Verification:** Exhaustive 1,245,184 test vectors validated via Verilog simulation and physical hardware testing.
 
-While the [main hardware repository](https://github.com/tmarhguy/8bit-discrete-transistor-alu) documents the electrical engineering—KiCad schematics, SPICE simulations, and Verilog verification—this project solves a different problem: **How do you showcase a complex physical machine to a global audience?**
-
-This platform bridges the gap between hardware and software, offering a high-performance, interactive 3D exploration of the physical ALU.
+For detailed hardware documentation, schematics, and SPICE simulations, refer to the [main hardware repository](https://github.com/tmarhguy/8bit-discrete-transistor-alu).
 
 ---
 
+## Cinematic Visualization Engine
+
+To visualize the hardware's complexity, this project implements a bespoke cinematic camera system capable of industry-standard motion control within the browser.
+
+### Parametric Path Generation
+The camera system eschews pre-baked animations in favor of real-time parametric path generation.
+- **Catmull-Rom Splines:** Utilizes centripetal parameterization to ensure smooth curves through keyframes without spatial overshoot.
+- **Unified Velocity Control:** Implements arc-length re-parameterization to decouple camera speed from control point density, ensuring consistent movement velocity across varied geometric paths.
+
+### Temporal Stability
+The rendering loop is decoupled from the camera logic to ensure frame-rate independence.
+- **Micro-Jitter Elimination:** Applies exponential smoothing (low-pass filtering) to camera position and look-at targets, eliminating high-frequency noise during frame drops.
+- **C1 Continuity:** Enforces geometric continuity at scene transitions to prevent velocity discontinuities (jerks) between camera cuts.
+
+## Adaptive Rendering Architecture
+
+The application targets a consistent 60 FPS across devices ranging from high-end workstations to mobile phones through an adaptive quality system.
+
+### Hardware Tiering
+On initialization, the application profiles the client environment (CPU concurrency, GPU class, device pixel ratio) to assign a performance tier:
+- **High:** Full resolution (DPR 2.0+), contact shadows, high-precision lighting, antialiasing.
+- **Medium:** Optimized resolution (DPR 1.5), standard shadows, balanced lighting.
+- **Low:** Native resolution (DPR 1.0), baked lighting only, simplified shaders.
+
+### Dynamic Optimization
+- **Power Preference:** Automatically adjusts WebGL power preference and frameloop strategies (`always` vs `demand`) to respect battery constraints on mobile devices.
+- **Progressive Loading:** Geometry uses `Suspense` boundaries for progressive streaming, prioritizing the ALU board visibility before secondary scene elements.
+
+## System Architecture & Asset Pipeline
+
+The project adheres to a "Zero-Dependency" architecture for long-term sustainability and performance.
+
+### 1. Self-Hosted Asset Pipeline
+All media assets are version-controlled and served directly from the repository, eliminating reliance on external CDNs or SaaS providers.
+- **Local Source of Truth:** Images and 4K video assets are stored in `/public/media/`, ensuring the repository is self-contained.
+- **Next.js Image Optimization:** Automatic format conversion (WebP/AVIF) and size optimization handled at build time.
+- **Edge Caching:** Assets are distributed via Vercel's global edge network for sub-second latency.
+
+### 2. 3D Optimization Workflow
+Rendering 3,000+ individual components requires aggressive geometry optimization:
+- **Draco Compression:** Raw CAD exports (`.step`) are converted to GLTF and compressed, reducing geometry size by ~90% (50MB+ → <5MB).
+- **Instanced Rendering:** Identical components (transistors, LEDs, resistors) utilize geometry instancing to reduce draw calls from thousands to <50 per frame.
+
 ## Performance Metrics
-
-This platform achieves exceptional web performance scores while delivering a rich, interactive 3D experience:
-
-### Lighthouse Scores
 
 | Platform | Performance | Accessibility | Best Practices | SEO |
 |----------|-------------|---------------|----------------|-----|
 | **Desktop** | 100 | 100 | 96 | 100 |
 | **Mobile** | 95 | 100 | 95 | 100 |
 
-*Scores validated via Chrome DevTools Lighthouse. Machine-readable reports available on request.*
+*Scores validated via Chrome DevTools Lighthouse.*
 
 <div align="center">
   <img src="public/media/readme/lighthouse_desktop_100.png" alt="Desktop Lighthouse Score - 100" width="48%">
   <img src="public/media/readme/lighthouse_mobile_95.png" alt="Mobile Lighthouse Score - 95" width="48%">
 </div>
 
-## System Architecture & Asset Pipeline
-
-To deliver a cinematic experience (4K video, high-fidelity 3D models) while maintaining these exceptional performance scores, we engineered a custom asset pipeline associated with this repo.
-
-### 1. Self-Hosted Asset Management
-
-All media assets are version-controlled and self-hosted for complete independence:
-
-* **Local Storage**: Images and videos are stored in `/public/media/` for zero external dependencies.
-* **Next.js Optimization**: Automatic WebP/AVIF conversion, responsive sizing, and quality optimization handled by Next.js Image component.
-* **CDN Distribution**: Assets are automatically cached and distributed via Vercel's global edge network.
-* **Performance**: Eliminates external API latency while maintaining sub-second load times globally.
-
-### 2. The 3D Optimization Workflow
-
-The centerpiece "Digital Twin" is a 1:1 render of the physical PCB. Rendering 3,000+ components in a browser required aggressive optimization:
-
-* **Draco Compression**: Raw CAD files (`.step`) from KiCad are converted to GLTF and compressed using Draco geometry compression, reducing file size from **50MB+** to **<5MB**.
-* **Instancing & Geometry Sharing**: We utilize material cloning and geometry sharing methods in `React Three Fiber` to keep draw calls low, even when rendering thousands of transistors.
-* **Progressive Loading**: Models use `Suspense` boundaries to load progressively, ensuring the UI remains responsive even on mobile networks.
-
-![3D Webview Preview](public/media/readme/3d_Webview.png)
-
 ## Tech Stack
 
 ### Frontend Core
 
-* **Framework**: [Next.js 14](https://nextjs.org/) (App Router) - Selected for its robust **Static Site Generation (SSG)** capabilities, crucial for documentation SEO and performance.
-* **Language**: **TypeScript** - 100% strict type safety to mirror the rigor of the hardware verification.
-* **Styling**: **Tailwind CSS** - Utility-first structure allowing for rapid, consistent UI iteration.
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router) - SSG for optimal SEO.
+- **Language:** **TypeScript 5** - Strict type safety.
+- **Styling:** **Tailwind CSS 3** - Utility-first styling.
+- **Motion:** [Framer Motion](https://www.framer.com/motion/) - Complex UI transitions and text reveals.
+- **Icons:** [Lucide React](https://lucide.dev/) - Consistent, lightweight icon set.
 
 ### Interactive 3D
 
-* **Engine**: **Three.js** via [React Three Fiber](https://docs.pmnd.rs/react-three-fiber).
-* **Abstractions**: `@react-three/drei` for camera controls (`OrbitControls`), environment mapping, and model loading utilities.
+- **Engine:** **Three.js** via [React Three Fiber](https://docs.pmnd.rs/react-three-fiber).
+- **Controls:** Custom camera implementation extending `@react-three/drei`.
+- **Asset Pipeline:** Draco Compression (GLTF) for 90% geometry reduction.
 
-### Performance
+### Infrastructure & Telemetry
 
-* **RSC (React Server Components)**: We move as much logic to the server as possible, keeping the client bundle lean.
-* **Dynamic Imports**: Heavy components (like the 3D Viewer) are lazy-loaded to prioritize First Contentful Paint (FCP).
-* **Optimized Lazy Loading**: Robust lazy loading implementation ensures smooth initial page loads by deferring below-fold content.
-
-![Project Metrics](public/media/readme/metrics.png)
-
-The **Build Journey** section enumerates each stage—from MOSFET design through PCB layout, simulation, and fabrication—and those stages span roughly 10 weeks, keeping the timeline aligned with the documented process.
+- **Hosting:** Vercel Edge Network.
+- **Analytics:** [Vercel Analytics](https://vercel.com/analytics) - Privacy-friendly real-time traffic insights.
+- **Media:** Self-hosted (Zero runtime dependencies; Cloudinary used only for build-time optimization scripts).
 
 ## Local Development
-
-To run this documentation suite locally:
 
 1.  **Clone the Repository**
     ```bash
@@ -126,26 +124,19 @@ To run this documentation suite locally:
     ```
     Visit [http://localhost:3000](http://localhost:3000).
 
-## Verification
-
-This project runs a strict CI/CD pipeline:
-* **Lighthouse CI**: Enforces performance budgets (Performance > 95 mobile, 100 desktop).
-* **Type Check**: `tsc --noEmit` runs on every commit.
-* **Golden Model Runner**: The [run_tests.py](https://github.com/tmarhguy/8bit-discrete-transistor-alu/blob/main/run_tests.sh) script in the hardware repo generates the 1,245,184 exhaustive test vectors referenced above and logs every pass.
-
 ## Related Resources
 
-* **[TRANSISTOR_COUNT_REPORT.md](TRANSISTOR_COUNT_REPORT.md)**: A detailed breakdown of the 3,488 transistors, categorizing them by 74xx ICs vs discrete logic.
-* **[Hardware Source Code](https://github.com/tmarhguy/8bit-discrete-transistor-alu)**: The 3,488 transistors, KiCad files, and Verilog.
-* **[Live Portfolio](https://tmarhguy.com)**: More of my engineering work.
+- **[TRANSISTOR_COUNT_REPORT.md](TRANSISTOR_COUNT_REPORT.md)**: Detailed inventory of the 3,488 transistors.
+- **[Hardware Source Code](https://github.com/tmarhguy/8bit-discrete-transistor-alu)**: KiCad files, SPICE simulations, and Verilog verification.
+- **[Live Portfolio](https://tmarhguy.com)**: Other engineering projects.
 
 ## Contact
 
-* **Email**: [tmarhguy@gmail.com](mailto:tmarhguy@gmail.com)
-* **Portfolio**: [tmarhguy.com](https://tmarhguy.com)
-* **LinkedIn**: [Tyrone Marhguy](https://linkedin.com/in/tmarhguy)
-* **Twitter**: [@marhguy_tyrone](https://twitter.com/marhguy_tyrone)
-* **Substack**: [tmarhguy.substack.com](https://tmarhguy.substack.com)
+- **Email**: [tmarhguy@gmail.com](mailto:tmarhguy@gmail.com)
+- **Portfolio**: [tmarhguy.com](https://tmarhguy.com)
+- **LinkedIn**: [Tyrone Marhguy](https://linkedin.com/in/tmarhguy)
+- **Twitter**: [@marhguy_tyrone](https://twitter.com/marhguy_tyrone)
+- **Substack**: [tmarhguy.substack.com](https://tmarhguy.substack.com)
 
 ---
 
