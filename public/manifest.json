@@ -15,15 +15,15 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/media/hero/hero_system_photo.png",
+      "src": "/media/images/hero/hero_system_photo.webp",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/media/hero/hero_system_photo.png",
+      "src": "/media/images/hero/hero_system_photo.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "maskable"
     }
   ],
@@ -36,7 +36,7 @@
       "url": "/viewer",
       "icons": [
         {
-          "src": "/media/hero/hero_system_photo.png",
+          "src": "/media/images/hero/hero_system_photo.webp",
           "sizes": "192x192"
         }
       ]
@@ -44,18 +44,18 @@
   ],
   "screenshots": [
     {
-      "src": "/homepage.png",
+      "src": "/media/readme/homepage.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Homepage with interactive 3D visualization"
     },
     {
-      "src": "/metrics.png",
+      "src": "/media/readme/metrics.png",
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Technical specifications and metrics"
+      "label": "Project metrics"
     }
   ],
   "related_applications": [],

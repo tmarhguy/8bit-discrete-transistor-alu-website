@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+import { usePathname } from 'next/navigation';
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,12 +21,13 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '#build-journey', label: 'Build Journey' },
-    { href: '#design-philosophy', label: 'Design' },
+    { href: '#future-optimizations', label: 'Feasibility' },
     { href: '#architecture', label: 'Architecture' },
     { href: '#testing-strategy', label: 'Testing' },
     { href: '#video-showcase', label: 'Videos' },
     { href: '/viewer', label: '3D Viewer', isRoute: true },
     { href: 'https://github.com/tmarhguy/8bit-discrete-transistor-alu', label: 'GitHub', external: true },
+    { href: 'https://tmarhguy.com', label: 'About Me', external: true, highlight: true },
   ];
 
   return (
@@ -38,18 +42,29 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-foreground" aria-label="8-Bit Discrete Transistor ALU Home">
-            8-Bit Discrete Transistor ALU
+          <Link 
+            href="/" 
+            className="text-xl font-bold text-foreground" 
+            aria-label="8-bit Transistor ALU Home"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            8-bit Transistor ALU
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              link.isRoute ? (
+            {navLinks.map((link) => {
+              const isActive = link.isRoute && pathname === link.href;
+              // @ts-ignore
+              const isHighlighted = link.highlight || isActive;
+              
+              return link.isRoute ? (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-muted-foreground hover:text-[#D4AF37] transition-colors"
+                  className={`${
+                    isHighlighted ? 'text-[#D4AF37] font-semibold' : 'text-muted-foreground'
+                  } hover:text-[#D4AF37] transition-colors`}
                 >
                   {link.label}
                 </Link>
@@ -59,12 +74,15 @@ export default function Navbar() {
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
-                  className="text-muted-foreground hover:text-[#D4AF37] transition-colors"
+                  className={`${
+                    // @ts-ignore
+                    link.highlight ? 'text-[#D4AF37] font-semibold' : 'text-muted-foreground'
+                  } hover:text-[#D4AF37] transition-colors`}
                 >
                   {link.label}
                 </a>
-              )
-            ))}
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,7 +133,10 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-muted-foreground hover:text-[#D4AF37] transition-colors py-3"
+                  className={`block transition-colors py-3 ${
+                    // @ts-ignore
+                    link.highlight ? 'text-[#D4AF37] font-semibold' : 'text-muted-foreground hover:text-[#D4AF37]'
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -126,7 +147,10 @@ export default function Navbar() {
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-muted-foreground hover:text-[#D4AF37] transition-colors py-3"
+                  className={`block transition-colors py-3 ${
+                    // @ts-ignore
+                    link.highlight ? 'text-[#D4AF37] font-semibold' : 'text-muted-foreground hover:text-[#D4AF37]'
+                  }`}
                 >
                   {link.label}
                 </a>

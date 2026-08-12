@@ -103,7 +103,7 @@ export default function Specifications() {
             <div className="glass glass-border rounded-lg p-6 text-center">
               <h3 className="text-lg font-bold text-foreground mb-2">Output Flags</h3>
               <p className="text-3xl font-bold text-accent mb-2">C, E, L, G</p>
-              <p className="text-sm text-muted-foreground">Carry, Equal, Less, Greater than</p>
+              <p className="text-sm text-muted-foreground">Carry, Equal, Less, Greater</p>
             </div>
           </FadeUp>
         </div>

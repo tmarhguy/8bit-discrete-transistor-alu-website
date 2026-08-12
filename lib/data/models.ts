@@ -23,27 +23,27 @@ export const models: ModelConfig[] = [
     description: 'Sequencer and control signal generation for instruction decoding.',
   },
   {
-    name: 'Flags Register',
+    name: 'Flags Circuit',
     imagePath: '/assets/boards/pcb_flags.png',
     description: 'Storage for ALU status flags (Zero, Carry, Overflow).',
   },
   {
-    name: 'Register A Display',
+    name: 'LED Panel 1',
     imagePath: '/assets/boards/pcb_led_panel_1.png',
     description: 'Visual LED readout for Accumulator A.',
   },
   {
-    name: 'Register B Display',
+    name: 'LED Panel 2',
     imagePath: '/assets/boards/pcb_led_panel_2.png',
     description: 'Visual LED readout for Operand Register B.',
   },
   {
-    name: 'Output Display',
+    name: 'LED Panel 3',
     imagePath: '/assets/boards/pcb_led_panel_3.png',
     description: 'Final calculation result display panel.',
   },
   {
-    name: 'Instruction Display',
+    name: 'LED Panel 4',
     imagePath: '/assets/boards/pcb_led_panel_4.png',
     description: 'Visual readout of the current Opcode being executed.',
   },

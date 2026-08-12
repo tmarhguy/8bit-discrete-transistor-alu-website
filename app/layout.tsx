@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import DeploymentSafety from "@/components/ui/DeploymentSafety";
 
 
 const inter = Inter({
@@ -61,8 +63,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        // Hero system photo used as the primary Open Graph preview image
-        url: 'https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png',
+        // Optimized 1200x630 OG image
+        url: 'https://alu.tmarhguy.com/media/images/opengraph-default.webp',
+        width: 1200,
         height: 630,
         alt: 'Physical 8-Bit Discrete Transistor ALU',
         type: 'image/png',
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Discrete 8-Bit ALU | Interactive 3D ALU | Tyrone Marhguy",
     description: "3,488 transistors. One 8-bit ALU. Explore the engineering behind a hand-built computer component by Tyrone Marhguy.",
-    images: ['https://alu.tmarhguy.com/media/images/pcb/renders/alu_slant.png'],
+    images: ['https://alu.tmarhguy.com/media/images/opengraph-default.webp'],
     creator: '@tmarhguy', // Verification if user has twitter
   },
 };
@@ -105,7 +108,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="8-Bit ALU" />
-        <link rel="apple-touch-icon" href="/media/images/pcb/renders/alu_slant.png" />
+        <link rel="apple-touch-icon" href="/media/pcb/renders/alu_slant.webp" />
         
         {/* Mobile Optimization */}
         <meta name="format-detection" content="telephone=no" />
@@ -153,6 +156,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <DeploymentSafety />
         <Analytics />
       </body>
     </html>

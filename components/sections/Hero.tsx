@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-black pt-16 sm:pt-24 pb-6"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black pt-12 sm:pt-16 pb-6"
     >
       {/* 1. Ambient Lighting (Subtle Top Gradient) */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-black to-black pointer-events-none z-0 opacity-50" />
@@ -27,7 +27,7 @@ export default function Hero() {
       {/* 2. Main Product Image (Top) */}
       <motion.div 
         style={{ scale: imageScale, y: imageY }}
-        className="relative z-10 w-full max-w-[1400px] h-[30vh] sm:h-[40vh] flex items-center justify-center perspective-[1000px] mb-1 sm:mb-2 lg:mb-6"
+        className="relative z-10 w-full max-w-[1400px] h-[25vh] sm:h-[35vh] flex items-center justify-center perspective-[1000px] mt-4 lg:mt-12 mb-8 lg:mb-12"
       >
         <motion.div 
            initial={{ scale: 0.95, rotateX: 5 }}
@@ -39,12 +39,13 @@ export default function Hero() {
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-center bg-no-repeat bg-[radial-gradient(circle_farthest-corner,rgba(212,175,55,0.08)_0%,transparent_70%)] blur-[60px]" />
            
             <Image
-              src="/media/images/pcb/renders/alu_slant.png"
+              src="/media/pcb/renders/alu_slant.webp"
               alt="8-Bit Transistor ALU"
               fill
               className="object-contain object-center drop-shadow-[0_-20px_60px_rgba(212,175,55,0.1)]"
               priority
-              quality={90}
+              quality={80}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
         </motion.div>
       </motion.div>
@@ -60,17 +61,17 @@ export default function Hero() {
            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Main Title */}
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tighter text-white mb-4 lg:mb-10">
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tighter text-white mb-3 lg:mb-6">
             8-Bit ALU
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl sm:text-2xl text-[#86868b] font-medium max-w-2xl mx-auto mb-6 lg:mb-14 leading-relaxed">
-            3,488 transistors. Built to answer a 3am question: Could I rebuild a computer, <span className="font-bold">solo</span>, in a medieval timeline?'
+          <p className="text-xl sm:text-2xl text-[#86868b] font-medium max-w-2xl mx-auto mb-6 lg:mb-8 leading-relaxed">
+            3,488 transistors (624 discrete MOSFETs + 2,864 inside 74HC logic). Built to answer a 3am question: Could I rebuild a computer as a personal project within a medieval timeline?
           </p>
 
           {/* Links - Gold */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-8 lg:mt-20 mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-6 lg:mt-10 mb-12">
              <a 
                href="/viewer" 
                className="group relative px-8 py-4 bg-[#D4AF37] text-black font-bold rounded-full text-lg shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#F2CD5C] hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all duration-300 flex items-center gap-3"
@@ -90,6 +91,7 @@ export default function Hero() {
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                </svg>
              </a>
+
           </div>
         </motion.div>
       </motion.div>

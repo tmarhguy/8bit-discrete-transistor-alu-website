@@ -4,7 +4,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { buildJourneyStages } from '@/lib/data/buildJourney';
 import InteractiveGallery from '@/components/ui/InteractiveGallery';
-import { useState } from 'react';
 
 export default function BuildJourneyStagePage() {
   const params = useParams();
@@ -13,6 +12,9 @@ export default function BuildJourneyStagePage() {
 
   const stage = buildJourneyStages.find((s) => s.id === stageId);
   const stageIndex = buildJourneyStages.findIndex((s) => s.id === stageId);
+
+  const isGalleryDisabled = stage?.galleryDisabled ?? false;
+  const notice = stage?.notice;
 
   if (!stage) {
     return (
@@ -91,13 +93,27 @@ export default function BuildJourneyStagePage() {
           </div>
         </motion.div>
 
-        {stage.detailImages && stage.detailImages.length > 0 && (
+        {isGalleryDisabled ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6">Detailed Images ({stage.detailImages.length})</h2>
-            <div className="w-full">
-               <InteractiveGallery images={stage.detailImages} title={stage.title} />
+            <div className="rounded-3xl border border-[#D4AF37]/40 bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-black/70 p-8 text-center">
+              <span className="text-[10px] tracking-[0.4em] uppercase text-[#F5DEB3]">Ongoing</span>
+              <h2 className="text-3xl font-bold text-[#F5DEB3] mt-4">
+                {notice?.title ?? 'Work in Progress'}
+              </h2>
+              <p className="text-sm text-muted-foreground/80 mt-3 max-w-3xl mx-auto">
+                {notice?.body ?? 'Photos and videos will appear here once the milestone is further along.'}
+              </p>
             </div>
           </motion.div>
+        ) : (
+          stage?.detailImages && stage.detailImages.length > 0 && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-12">
+              <h2 className="text-2xl font-bold text-foreground mb-6">Detailed Images ({stage.detailImages.length})</h2>
+              <div className="w-full">
+                <InteractiveGallery images={stage.detailImages} title={stage.title} />
+              </div>
+            </motion.div>
+          )
         )}
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex justify-between items-center pt-8 border-t border-white/10">

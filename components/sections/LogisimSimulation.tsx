@@ -19,13 +19,13 @@ export default function LogisimSimulation() {
       src: '/media/videos/simulations/schematics_draw_demo.mp4',
       title: 'Schematic Entry Process',
       description: 'Designing the ALU schematics in the EDA tool. This demonstration captures the detailed process of creating the circuit diagrams.',
-      poster: '/media/images/simulations/logisim/sim_logisim_evolution_full.png',
+      poster: '/media/simulations/logisim/sim_logisim_evolution_full.webp',
     },
     {
       src: '/media/videos/simulations/sim_logisim_counter_running.mp4',
       title: 'Logisim ALU Simulation',
       description: 'Counter-driven test sequence cycling through all 19 operations with visual output verification',
-      poster: '/media/images/simulations/logisim/sim_logisim_alu_layout.png',
+      poster: '/media/simulations/logisim/sim_logisim_alu_layout.webp',
     },
   ];
 
@@ -81,17 +81,17 @@ export default function LogisimSimulation() {
       notes: 'Bitwise operations confirmed',
     },
     {
-      operation: 'Shifts (SHL, SHR)',
+      operation: 'Shifts (LSL, LSR, ASR)',
       status: 'Verified',
-      notes: 'Carry flag behavior validated',
+      notes: 'Available as arithmetic/logical shifts',
     },
     {
-      operation: 'Rotates (ROL, ROR)',
+      operation: 'Special (REV, CMP)',
       status: 'Verified',
-      notes: 'Rotation with carry confirmed',
+      notes: 'Bit reversal and comparison logic',
     },
     {
-      operation: 'Flags (C, Z, N)',
+      operation: 'Flags (C, E, L, G)',
       status: 'Verified',
       notes: 'All flag conditions tested',
     },
@@ -121,8 +121,8 @@ export default function LogisimSimulation() {
   ];
 
   const screenshots = [
-    '/media/simulations/logisim/sim_logisim_evolution_full.png',
-    '/media/simulations/logisim/sim_logisim_alu_layout.png',
+    '/media/simulations/logisim/sim_logisim_evolution_full.webp',
+    '/media/simulations/logisim/sim_logisim_alu_layout.webp',
   ];
 
   const openLightbox = (startIndex: number = 0) => {

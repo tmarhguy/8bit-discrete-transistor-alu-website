@@ -4,7 +4,6 @@ import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { Stage, Environment, ContactShadows, Stats, PerformanceMonitor } from '@react-three/drei';
 import SceneControls from './SceneControls';
-import ControlsLegend from './ControlsLegend';
 import { Suspense, useState, useMemo, useEffect, useRef } from 'react';
 import Model from './Model';
 
@@ -14,6 +13,8 @@ interface InteractiveSceneProps {
   showGrid?: boolean;
   showStats?: boolean;
   modelVisibility?: Record<string, boolean>;
+  startTour?: boolean;
+  onTourStateChange?: (isPlaying: boolean) => void;
 }
 
 // Performance tier detection
@@ -24,16 +25,16 @@ function usePerformanceTier(): PerformanceTier {
     if (typeof window === 'undefined') return 'medium';
     
     const cores = navigator.hardwareConcurrency || 4;
-    const dpr = window.devicePixelRatio || 1;
     const isMobile = window.innerWidth < 1024 || 'ontouchstart' in window;
     
-    // Low tier: low-end mobile or explicitly low resources
-    if (cores <= 4 && isMobile) return 'low';
+    // Low tier: Any device with <= 4 cores, or mobile devices
+    // This catches older Intel MacBooks and most phones
+    if (cores <= 4 || isMobile) return 'low';
     
-    // High tier: desktop with good specs
-    if (cores >= 8 && dpr >= 2 && !isMobile) return 'high';
+    // High tier: Powerful desktop/laptop
+    if (cores >= 8 && !isMobile) return 'high';
     
-    // Medium tier: everything else
+    // Medium tier: everything else (e.g. 6 core desktops)
     return 'medium';
   }, []);
 }
@@ -50,13 +51,23 @@ export default function InteractiveScene({
   onModelSelect,
   showGrid = true,
   showStats = true,
-  modelVisibility
+  modelVisibility,
+  startTour = false,
+  onTourStateChange
 }: InteractiveSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tier = usePerformanceTier();
   const [dpr, setDpr] = useState(DPR_CAPS[tier][1]); 
+  // Disable auto-rotate by default on low tier to save resources
   const [autoRotate, setAutoRotate] = useState(true);
+  const [isImmersivePlaying, setIsImmersivePlayingLocal] = useState(false); // New state to force frameloop
   const [isVisible, setIsVisible] = useState(true);
+
+  // Sync internal state with parent
+  const setIsImmersivePlaying = (val: boolean) => {
+    setIsImmersivePlayingLocal(val);
+    if (onTourStateChange) onTourStateChange(val);
+  };
 
   // Offscreen pause: stop rendering when not visible
   useEffect(() => {
@@ -86,7 +97,8 @@ export default function InteractiveScene({
     <div ref={containerRef} className="w-full h-full">
       <Canvas
         dpr={dpr}
-        frameloop={isVisible ? (autoRotate ? 'always' : 'demand') : 'never'}
+        // FORCE ALWAYS RENDERING IF PLAYING: logic updated
+        frameloop={isVisible ? ((autoRotate || isImmersivePlaying) ? 'always' : 'demand') : 'never'}
         shadows={tier !== 'low'}
         camera={{ position: [10, 15, 10], fov: 45 }} 
         gl={{ 
@@ -167,10 +179,11 @@ export default function InteractiveScene({
         <SceneControls 
           autoRotate={autoRotate} 
           onAutoRotateChange={setAutoRotate} 
+          // Inject control to lift state up
+          onPlaybackStateChange={setIsImmersivePlaying}
+          startTourProp={startTour}
         />
         
-        {/* UI: Heads Up Display */}
-        <ControlsLegend />
       </Canvas>
     </div>
   );
